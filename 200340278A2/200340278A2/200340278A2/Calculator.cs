@@ -12,6 +12,9 @@ namespace _200340278A2
 {
     public partial class Calculator : Form
     {
+        private string CurrentDisplay = "0";
+
+        // no code
         #region Constructor
         /// <summary>
         /// Default Constructor 
@@ -33,6 +36,7 @@ namespace _200340278A2
 
         #endregion
 
+        // no code
         #region TextBoxes
 
         /// <summary>
@@ -56,6 +60,7 @@ namespace _200340278A2
         }
         #endregion
 
+        // has code
         #region Return, Clear, Parentheses Buttons
 
         /// <summary>
@@ -99,6 +104,7 @@ namespace _200340278A2
         }
         #endregion
 
+        // has code
         #region Memory Buttons
 
         /// <summary>
@@ -142,10 +148,16 @@ namespace _200340278A2
         }
         #endregion
 
+        // has code
         #region Operation Buttons
+        /// <summary>
+        /// Adds a period "." to the text display
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void btnPeriod_Click(object sender, EventArgs e)
         {
-            
+            AddString(".");
         }
 
         private void btnDivide_Click(object sender, EventArgs e)
@@ -174,6 +186,7 @@ namespace _200340278A2
         }
         #endregion
 
+        // has code
         #region Additional Function Buttons
         private void btnSqrt_Click(object sender, EventArgs e)
         {
@@ -182,7 +195,7 @@ namespace _200340278A2
 
         private void btnInverse_Click(object sender, EventArgs e)
         {
-
+            
         }
 
         private void btnSign_Click(object sender, EventArgs e)
@@ -191,55 +204,83 @@ namespace _200340278A2
         }
         #endregion
 
+        // has code
         #region Numerical Buttons
         private void btnZero_Click(object sender, EventArgs e)
         {
-
+            AddInput(0);
         }
 
         private void btnOne_Click(object sender, EventArgs e)
         {
-
+            AddInput(1);
         }
 
         private void btnTwo_Click(object sender, EventArgs e)
         {
-
+            AddInput(2);
         }
 
         private void btnThree_Click(object sender, EventArgs e)
         {
-
+            AddInput(3);
         }
 
         private void btnFour_Click(object sender, EventArgs e)
         {
-
+            AddInput(4);
         }
 
         private void btnFive_Click(object sender, EventArgs e)
         {
-
+            AddInput(5);
         }
 
         private void btnSix_Click(object sender, EventArgs e)
         {
-
+            AddInput(6);
         }
 
         private void btnSeven_Click(object sender, EventArgs e)
         {
-
+            AddInput(7);
         }
 
         private void btnEight_Click(object sender, EventArgs e)
         {
-
+            AddInput(8);
         }
 
         private void btnNine_Click(object sender, EventArgs e)
         {
+            AddInput(9);
+        }
+        #endregion
 
+        // has code
+        #region methods
+        private void AddInput(int number)
+        {
+            if (CurrentDisplay.Equals("0")) // when the current display is '0' start with the new number
+            { 
+                CurrentDisplay = number.ToString();
+            } else
+            {
+                CurrentDisplay += number;
+                txtDisplay.Text = CurrentDisplay;
+            }
+        }
+
+        private void AddString(string period)
+        {
+            if(CurrentDisplay.Equals("0"))
+            {
+                CurrentDisplay = period.ToString(); // when the current display is '0' start with a period
+            } else
+            {
+                CurrentDisplay += period;
+                txtDisplay.Text = CurrentDisplay;
+            }
         }
         #endregion
     }
