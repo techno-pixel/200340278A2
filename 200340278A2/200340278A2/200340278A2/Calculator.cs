@@ -5,13 +5,26 @@ using System.Data;
 using System.Drawing;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace _200340278A2
 {
+    public enum operation
+    {
+        /// <summary>
+        /// Operation subtract
+        /// </summary>
+        Subtract,
+        Add,
+        Multiply,
+        Divide
+    }
+
     public partial class Calculator : Form
     {
+        public operation Operation;
         private string CurrentDisplay = "0";
 
         // no code
@@ -46,7 +59,7 @@ namespace _200340278A2
         /// <param name="e"></param>
         private void txtDisplay_TextChanged(object sender, EventArgs e)
         {
-
+            
         }
 
         /// <summary>
@@ -182,7 +195,27 @@ namespace _200340278A2
 
         private void btnEquals_Click(object sender, EventArgs e)
         {
+            // Checking the inputs to make sure they are values that the form accepts (only positive, one decimal point, only numbers)
+            try
+            {
 
+                if (String.IsNullOrEmpty(txtDisplay.Text)) // if textbox is empty, show message
+                {
+                    MessageBox.Show("You need to enter some value");
+                }
+                else if (!Regex.IsMatch(txtDisplay.Text, @"^\d+([\.\,]?\d+)?$")) // regex to allow only positive numbers and one decimal point
+                {
+                    throw new ApplicationException("Please enter only numbers/decimals.");
+                }
+                else
+                {
+                    // method(); // if everything passes, calculate
+                }
+            }
+            catch (ApplicationException) // catch the exception to not break the program
+            {
+                MessageBox.Show("Please enter only numbers/decimals.");
+            }
         }
         #endregion
 
@@ -208,7 +241,14 @@ namespace _200340278A2
         #region Numerical Buttons
         private void btnZero_Click(object sender, EventArgs e)
         {
-            AddInput(0);
+            if (txtDisplay.Text.Length >= 1)
+            {
+                txtDisplay.Text = txtDisplay.Text + "0";
+            }
+            else
+            {
+                return;
+            }
         }
 
         private void btnOne_Click(object sender, EventArgs e)
@@ -280,6 +320,29 @@ namespace _200340278A2
             {
                 CurrentDisplay += period;
                 txtDisplay.Text = CurrentDisplay;
+            }
+        }
+
+        /// <summary>
+        /// operation types
+        /// </summary>
+        /// <param name="op"></param>
+        private void PerformOperation(operation op)
+        {
+            switch (Operation)
+            {
+                case operation.Subtract:
+                    //method here
+                    break;
+                case operation.Add:
+                    //method here
+                    break;
+                case operation.Multiply:
+                    //method here
+                    break;
+                case operation.Divide:
+                    //method here
+                    break;
             }
         }
         #endregion
