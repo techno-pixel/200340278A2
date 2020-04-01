@@ -35,6 +35,8 @@ namespace _200340278A2
         public Calculator()
         {
             InitializeComponent();
+            txtDisplay.ReadOnly = true;
+            txtDisplay.Text = "0";
         }
 
         /// <summary>
@@ -94,6 +96,9 @@ namespace _200340278A2
         private void btnClear_Click(object sender, EventArgs e)
         {
             this.txtDisplay.Text = string.Empty;
+            this.txtMemoryUsed.Text = string.Empty;
+            this.CurrentDisplay = string.Empty;
+            this.txtDisplay.Text = "0";
         }
 
         /// <summary>
@@ -104,6 +109,7 @@ namespace _200340278A2
         private void btnParaL_Click(object sender, EventArgs e)
         {
             this.txtDisplay.Text = txtDisplay.Text + "(";
+            this.CurrentDisplay = txtDisplay.Text;
         }
 
         /// <summary>
@@ -114,6 +120,7 @@ namespace _200340278A2
         private void btnParaR_Click(object sender, EventArgs e)
         {
             this.txtDisplay.Text = txtDisplay.Text + ")";
+            this.CurrentDisplay = txtDisplay.Text;
         }
         #endregion
 
