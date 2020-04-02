@@ -37,6 +37,7 @@ namespace _200340278A2
             InitializeComponent();
             txtDisplay.ReadOnly = true;
             txtDisplay.KeyPress += Calculator_KeyPress;
+            txtDisplay.Text = string.Empty;
         }
 
         /// <summary>
@@ -103,10 +104,9 @@ namespace _200340278A2
         /// <param name="e"></param>
         private void btnClear_Click(object sender, EventArgs e)
         {
-            this.txtDisplay.Text = string.Empty;
             this.txtMemoryUsed.Text = string.Empty;
             this.CurrentDisplay = "0";
-            this.txtDisplay.Text = "0";
+            this.txtDisplay.Text = string.Empty;
             txtDisplay.Focus();
         }
 
@@ -134,9 +134,9 @@ namespace _200340278A2
         /// <param name="e"></param>
         private void btnParaR_Click(object sender, EventArgs e)
         {
-            if (this.txtDisplay.Text == "0")
+            if (this.txtDisplay.Text.Length < 1)
             {
-                this.txtDisplay.Text = ")";
+                MessageBox.Show("Invalud use of closing parentheses");
             }
             else
             {
@@ -273,12 +273,24 @@ namespace _200340278A2
 
         private void btnInverse_Click(object sender, EventArgs e)
         {
-            
+            Inverse();
+            txtDisplay.Focus();
         }
 
         private void btnSign_Click(object sender, EventArgs e)
         {
+            //int count = 0;
+            //string s = "-";
+            //if (count == 0 || count % 2 == 0)
+            //{
+            //    CurrentDisplay = txtDisplay.Text;
+            //    txtDisplay.Text = s + " " + CurrentDisplay;
+            //    count++;
+            //}
+            //else if (count % 2 != 0)
+            //{
 
+            //}
         }
         #endregion
 
@@ -357,7 +369,7 @@ namespace _200340278A2
         #region methods
         private void AddInput(int number)
         {
-            if (txtDisplay.Text.Equals("0")) // when the current display is '0' start with the new number
+            if (txtDisplay.Text.Length < 1) 
             { 
                 CurrentDisplay = number.ToString();
                 txtDisplay.Text = CurrentDisplay;
@@ -493,20 +505,18 @@ namespace _200340278A2
 
         private void Inverse()
         {
-            
+            decimal inverseResult;
+            string txtToParse = txtDisplay.Text;
+            if (decimal.TryParse(txtToParse, out decimal parsedNumbers))
+            {
+                inverseResult = 1 / parsedNumbers;
+                txtDisplay.Text = inverseResult.ToString();
+            }
         }
 
         private void Parse()
         {
-            decimal result;
-            string txtToParse = txtDisplay.Text;
-
-            if (decimal.TryParse(txtToParse, out decimal parsedNumbers))
-            {
-                txtToParse = parsedNumbers.ToString("C");
-            }
-
-            result = parsedNumbers;
+            
         }
         #endregion
     }
