@@ -35,21 +35,28 @@ namespace _200340278A2
         public Calculator()
         {
             InitializeComponent();
-            txtDisplay.ReadOnly = true;
-            txtDisplay.KeyPress += Calculator_KeyPress;
-            txtDisplay.Text = string.Empty;
         }
 
         /// <summary>
-        /// No work required
+        /// 
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
         private void Calculator_Load(object sender, EventArgs e)
         {
-
+            txtDisplay.ReadOnly = true;
+            txtDisplay.KeyPress += Calculator_KeyPress;
+            txtDisplay.Text = string.Empty;
+            txtDisplay.Enabled = false;
+            txtDisplay.Enabled = true;
+            txtDisplay.Cursor = Cursors.Arrow;
+            txtDisplay.GotFocus += txtDisplay_GotFocus;
         }
 
+        private void txtDisplay_GotFocus(object sender, EventArgs e)
+        {
+            ((TextBox)sender).Parent.Focus();
+        }
         #endregion
 
         // no code
@@ -107,7 +114,7 @@ namespace _200340278A2
             this.txtMemoryUsed.Text = string.Empty;
             this.CurrentDisplay = "0";
             this.txtDisplay.Text = string.Empty;
-            txtDisplay.Focus();
+            txtDisplay.GotFocus += txtDisplay_GotFocus;
         }
 
         /// <summary>
@@ -125,6 +132,7 @@ namespace _200340278A2
                 this.txtDisplay.Text = txtDisplay.Text + "(";
                 this.CurrentDisplay = txtDisplay.Text;
             }
+            txtDisplay.GotFocus += txtDisplay_GotFocus;
         }
 
         /// <summary>
@@ -143,6 +151,7 @@ namespace _200340278A2
                 this.txtDisplay.Text = txtDisplay.Text + ")";
                 this.CurrentDisplay = txtDisplay.Text;
             }
+            txtDisplay.GotFocus += txtDisplay_GotFocus;
         }
         #endregion
 
@@ -200,7 +209,7 @@ namespace _200340278A2
         private void btnPeriod_Click(object sender, EventArgs e)
         {
             AddString(".");
-            txtDisplay.Focus();
+            txtDisplay.GotFocus += txtDisplay_GotFocus;
         }
 
         private void btnDivide_Click(object sender, EventArgs e)
@@ -225,22 +234,6 @@ namespace _200340278A2
 
         private void btnEquals_Click(object sender, EventArgs e)
         {
-            var r = new Regex(@"
-                func([a-zA-Z_][a-zA-Z0-9_]*) # The func name
-
-                \(                      # First '('
-                    (?:                 
-                    [^()]               # Match all non-braces
-                    |
-                    (?<open> \( )       # Match '(', and capture into 'open'
-                    |
-                    (?<-open> \) )      # Match ')', and delete the 'open' capture
-                    )+
-                    (?(open)(?!))       # Fails if 'open' stack isn't empty!
-
-                \)                      # Last ')'
-            ", RegexOptions.IgnorePatternWhitespace);
-            // Checking the inputs to make sure they are values that the form accepts (only positive, one decimal point, only numbers)
             try
             {
 
@@ -248,7 +241,7 @@ namespace _200340278A2
                 {
                     MessageBox.Show("You need to enter some value");
                 }
-                else if (!Regex.IsMatch(txtDisplay.Text, @"[(]+(^\d+([\.\,]?\d+))+[)]?$"))
+                else if (!Regex.IsMatch(txtDisplay.Text, @"^([-+]? ?(\d+(\.\d{0,8})?)( ?[-+*\/] ?)?)$"))
                 {
                     throw new ApplicationException("Please enter only numbers/decimals.");
                 }
@@ -274,7 +267,7 @@ namespace _200340278A2
         private void btnInverse_Click(object sender, EventArgs e)
         {
             Inverse();
-            txtDisplay.Focus();
+            txtDisplay.GotFocus += txtDisplay_GotFocus;
         }
 
         private void btnSign_Click(object sender, EventArgs e)
@@ -294,6 +287,9 @@ namespace _200340278A2
         }
         #endregion
 
+        //my buttons 10
+        //my buttons 0 = btnZero
+
         // has code
         #region Numerical Buttons
         private void btnZero_Click(object sender, EventArgs e)
@@ -307,61 +303,61 @@ namespace _200340278A2
             {
                 return;
             }
-            txtDisplay.Focus();
+            txtDisplay.GotFocus += txtDisplay_GotFocus;
         }
 
         private void btnOne_Click(object sender, EventArgs e)
         {
             AddInput(1);
-            txtDisplay.Focus();
+            txtDisplay.GotFocus += txtDisplay_GotFocus;
         }
 
         private void btnTwo_Click(object sender, EventArgs e)
         {
             AddInput(2);
-            txtDisplay.Focus();
+            txtDisplay.GotFocus += txtDisplay_GotFocus;
         }
 
         private void btnThree_Click(object sender, EventArgs e)
         {
             AddInput(3);
-            txtDisplay.Focus();
+            txtDisplay.GotFocus += txtDisplay_GotFocus;
         }
 
         private void btnFour_Click(object sender, EventArgs e)
         {
             AddInput(4);
-            txtDisplay.Focus();
+            txtDisplay.GotFocus += txtDisplay_GotFocus;
         }
 
         private void btnFive_Click(object sender, EventArgs e)
         {
             AddInput(5);
-            txtDisplay.Focus();
+            txtDisplay.GotFocus += txtDisplay_GotFocus;
         }
 
         private void btnSix_Click(object sender, EventArgs e)
         {
             AddInput(6);
-            txtDisplay.Focus();
+            txtDisplay.GotFocus += txtDisplay_GotFocus;
         }
 
         private void btnSeven_Click(object sender, EventArgs e)
         {
             AddInput(7);
-            txtDisplay.Focus();
+            txtDisplay.GotFocus += txtDisplay_GotFocus;
         }
 
         private void btnEight_Click(object sender, EventArgs e)
         {
             AddInput(8);
-            txtDisplay.Focus();
+            txtDisplay.GotFocus += txtDisplay_GotFocus;
         }
 
         private void btnNine_Click(object sender, EventArgs e)
         {
             AddInput(9);
-            txtDisplay.Focus();
+            txtDisplay.GotFocus += txtDisplay_GotFocus;
         }
         #endregion
 
@@ -378,6 +374,7 @@ namespace _200340278A2
                 CurrentDisplay += number;
                 txtDisplay.Text = CurrentDisplay;
             }
+            txtDisplay.GotFocus += txtDisplay_GotFocus;
         }
 
         private void AddString(string period)
@@ -391,6 +388,7 @@ namespace _200340278A2
                 CurrentDisplay += period;
                 txtDisplay.Text = CurrentDisplay;
             }
+            txtDisplay.GotFocus += txtDisplay_GotFocus;
         }
 
         /// <summary>
@@ -510,8 +508,10 @@ namespace _200340278A2
             if (decimal.TryParse(txtToParse, out decimal parsedNumbers))
             {
                 inverseResult = 1 / parsedNumbers;
-                txtDisplay.Text = inverseResult.ToString();
+                CurrentDisplay = inverseResult.ToString();
+                txtDisplay.Text = CurrentDisplay;
             }
+            txtDisplay.GotFocus += txtDisplay_GotFocus;
         }
 
         private void Parse()
