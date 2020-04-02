@@ -37,6 +37,7 @@ namespace _200340278A2
             InitializeComponent();
             txtDisplay.ReadOnly = true;
             txtDisplay.Text = "0";
+            txtDisplay.KeyPress += Calculator_KeyPress;
         }
 
         /// <summary>
@@ -108,8 +109,14 @@ namespace _200340278A2
         /// <param name="e"></param>
         private void btnParaL_Click(object sender, EventArgs e)
         {
-            this.txtDisplay.Text = txtDisplay.Text + "(";
-            this.CurrentDisplay = txtDisplay.Text;
+            if(this.txtDisplay.Text == "0")
+            {
+                this.txtDisplay.Text = "(";
+            } else
+            {
+                this.txtDisplay.Text = txtDisplay.Text + "(";
+                this.CurrentDisplay = txtDisplay.Text;
+            }
         }
 
         /// <summary>
@@ -119,8 +126,15 @@ namespace _200340278A2
         /// <param name="e"></param>
         private void btnParaR_Click(object sender, EventArgs e)
         {
-            this.txtDisplay.Text = txtDisplay.Text + ")";
-            this.CurrentDisplay = txtDisplay.Text;
+            if (this.txtDisplay.Text == "0")
+            {
+                this.txtDisplay.Text = ")";
+            }
+            else
+            {
+                this.txtDisplay.Text = txtDisplay.Text + ")";
+                this.CurrentDisplay = txtDisplay.Text;
+            }
         }
         #endregion
 
@@ -256,51 +270,61 @@ namespace _200340278A2
             {
                 return;
             }
+            txtDisplay.Focus();
         }
 
         private void btnOne_Click(object sender, EventArgs e)
         {
             AddInput(1);
+            txtDisplay.Focus();
         }
 
         private void btnTwo_Click(object sender, EventArgs e)
         {
             AddInput(2);
+            txtDisplay.Focus();
         }
 
         private void btnThree_Click(object sender, EventArgs e)
         {
             AddInput(3);
+            txtDisplay.Focus();
         }
 
         private void btnFour_Click(object sender, EventArgs e)
         {
             AddInput(4);
+            txtDisplay.Focus();
         }
 
         private void btnFive_Click(object sender, EventArgs e)
         {
             AddInput(5);
+            txtDisplay.Focus();
         }
 
         private void btnSix_Click(object sender, EventArgs e)
         {
             AddInput(6);
+            txtDisplay.Focus();
         }
 
         private void btnSeven_Click(object sender, EventArgs e)
         {
             AddInput(7);
+            txtDisplay.Focus();
         }
 
         private void btnEight_Click(object sender, EventArgs e)
         {
             AddInput(8);
+            txtDisplay.Focus();
         }
 
         private void btnNine_Click(object sender, EventArgs e)
         {
             AddInput(9);
+            txtDisplay.Focus();
         }
         #endregion
 
@@ -350,6 +374,92 @@ namespace _200340278A2
                 case operation.Divide:
                     //method here
                     break;
+            }
+        }
+
+        private void Calculator_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            if(e.KeyChar.Equals('0') || e.KeyChar.Equals(Keys.NumPad0))
+            {
+                btnZero.PerformClick();
+                e.Handled = true;
+            }
+
+            if(e.KeyChar.Equals('1') || e.KeyChar.Equals(Keys.NumPad1))
+            {
+                btnOne.PerformClick();
+                e.Handled = true;
+            }
+
+            if(e.KeyChar.Equals('2') || e.KeyChar.Equals(Keys.NumPad2))
+            {
+                btnTwo.PerformClick();
+                e.Handled = true;
+            }
+
+            if(e.KeyChar.Equals('3') || e.KeyChar.Equals(Keys.NumPad3))
+            {
+                btnThree.PerformClick();
+                e.Handled = true;
+            }
+
+            if(e.KeyChar.Equals('4') || e.KeyChar.Equals(Keys.NumPad4))
+            {
+                btnFour.PerformClick();
+                e.Handled = true;
+            }
+
+            if(e.KeyChar.Equals('5') || e.KeyChar.Equals(Keys.NumPad5))
+            {
+                btnFive.PerformClick();
+                e.Handled = true;
+            }
+
+            if(e.KeyChar.Equals('6') || e.KeyChar.Equals(Keys.NumPad6))
+            {
+                btnSix.PerformClick();
+                e.Handled = true;
+            }
+
+            if(e.KeyChar.Equals('7') || e.KeyChar.Equals(Keys.NumPad7))
+            {
+                btnSeven.PerformClick();
+                e.Handled = true;
+            }
+
+            if(e.KeyChar.Equals('8') || e.KeyChar.Equals(Keys.NumPad8))
+            {
+                btnEight.PerformClick();
+                e.Handled = true;
+            }
+
+            if(e.KeyChar.Equals('9') || e.KeyChar.Equals(Keys.NumPad9))
+            {
+                btnNine.PerformClick();
+                e.Handled = true;
+            }
+
+            if(e.KeyChar.Equals('('))
+            {
+                btnParaL.PerformClick();
+                e.Handled = true;
+            }
+
+            if(e.KeyChar.Equals(')'))
+            {
+                btnParaL.PerformClick();
+                e.Handled = true;
+            }
+
+            if(e.KeyChar == (char)8)
+            {
+                if(txtDisplay.Text.Length < 1)
+                {
+                    MessageBox.Show("You need some values to erase!");
+                } else
+                {
+                    txtDisplay.Text = txtDisplay.Text.Substring(0, txtDisplay.TextLength - 1);
+                }
             }
         }
         #endregion
