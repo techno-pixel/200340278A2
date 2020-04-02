@@ -14,7 +14,7 @@ namespace _200340278A2
     public enum operation
     {
         /// <summary>
-        /// Operation subtract
+        /// Operation subtract  
         /// </summary>
         Subtract,
         Add,
@@ -36,7 +36,6 @@ namespace _200340278A2
         {
             InitializeComponent();
             txtDisplay.ReadOnly = true;
-            txtDisplay.Text = "0";
             txtDisplay.KeyPress += Calculator_KeyPress;
         }
 
@@ -77,7 +76,7 @@ namespace _200340278A2
         #endregion
 
         // has code
-        #region Return, Clear, Parentheses Buttons
+        #region Backspace, Clear, Parentheses Buttons
 
         /// <summary>
         /// Erases last inputted character from the input text book
@@ -86,13 +85,14 @@ namespace _200340278A2
         /// <param name="e"></param>
         private void btnBack_Click(object sender, EventArgs e)
         {
-            if (txtDisplay.Text.Length < 1)
+            if((txtDisplay.Text.Length < 1))
             {
-                MessageBox.Show("You need some values to erase!");
-            }
-            else
+                MessageBox.Show("No values to erase");
+            } else
             {
-                txtDisplay.Text = txtDisplay.Text.Substring(0, txtDisplay.TextLength - 1);
+                CurrentDisplay = txtDisplay.Text;
+                CurrentDisplay = CurrentDisplay.Substring(0, CurrentDisplay.Length - 1);
+                txtDisplay.Text = CurrentDisplay;
             }
         }
 
@@ -107,6 +107,7 @@ namespace _200340278A2
             this.txtMemoryUsed.Text = string.Empty;
             this.CurrentDisplay = "0";
             this.txtDisplay.Text = "0";
+            txtDisplay.Focus();
         }
 
         /// <summary>
@@ -199,6 +200,7 @@ namespace _200340278A2
         private void btnPeriod_Click(object sender, EventArgs e)
         {
             AddString(".");
+            txtDisplay.Focus();
         }
 
         private void btnDivide_Click(object sender, EventArgs e)
@@ -223,6 +225,21 @@ namespace _200340278A2
 
         private void btnEquals_Click(object sender, EventArgs e)
         {
+            var r = new Regex(@"
+                func([a-zA-Z_][a-zA-Z0-9_]*) # The func name
+
+                \(                      # First '('
+                    (?:                 
+                    [^()]               # Match all non-braces
+                    |
+                    (?<open> \( )       # Match '(', and capture into 'open'
+                    |
+                    (?<-open> \) )      # Match ')', and delete the 'open' capture
+                    )+
+                    (?(open)(?!))       # Fails if 'open' stack isn't empty!
+
+                \)                      # Last ')'
+            ", RegexOptions.IgnorePatternWhitespace);
             // Checking the inputs to make sure they are values that the form accepts (only positive, one decimal point, only numbers)
             try
             {
@@ -231,7 +248,7 @@ namespace _200340278A2
                 {
                     MessageBox.Show("You need to enter some value");
                 }
-                else if (!Regex.IsMatch(txtDisplay.Text, @"^\d+([\.\,]?\d+)?$")) // regex to allow only positive numbers and one decimal point
+                else if (!Regex.IsMatch(txtDisplay.Text, @"[(]+(^\d+([\.\,]?\d+))+[)]?$"))
                 {
                     throw new ApplicationException("Please enter only numbers/decimals.");
                 }
@@ -271,7 +288,8 @@ namespace _200340278A2
         {
             if (txtDisplay.Text.Length >= 1)
             {
-                txtDisplay.Text = txtDisplay.Text + "0";
+                CurrentDisplay = txtDisplay.Text + "0";
+                txtDisplay.Text = CurrentDisplay;
             }
             else
             {
@@ -339,9 +357,10 @@ namespace _200340278A2
         #region methods
         private void AddInput(int number)
         {
-            if (CurrentDisplay.Equals("0")) // when the current display is '0' start with the new number
+            if (txtDisplay.Text.Equals("0")) // when the current display is '0' start with the new number
             { 
                 CurrentDisplay = number.ToString();
+                txtDisplay.Text = CurrentDisplay;
             } else
             {
                 CurrentDisplay += number;
@@ -351,9 +370,10 @@ namespace _200340278A2
 
         private void AddString(string period)
         {
-            if(CurrentDisplay.Equals("0"))
+            if(txtDisplay.Text.Equals("0"))
             {
                 CurrentDisplay = period.ToString(); // when the current display is '0' start with a period
+                txtDisplay.Text = CurrentDisplay;
             } else
             {
                 CurrentDisplay += period;
@@ -454,7 +474,7 @@ namespace _200340278A2
 
             if(e.KeyChar.Equals(')'))
             {
-                btnParaL.PerformClick();
+                btnParaR.PerformClick();
                 e.Handled = true;
             }
 
@@ -463,6 +483,30 @@ namespace _200340278A2
                 btnBack.PerformClick();
                 e.Handled = true;
             }
+
+            if(e.KeyChar.Equals('.') || e.KeyChar.Equals(Keys.OemPeriod))
+            {
+                btnPeriod.PerformClick();
+                e.Handled = true;
+            }
+        }
+
+        private void Inverse()
+        {
+            
+        }
+
+        private void Parse()
+        {
+            decimal result;
+            string txtToParse = txtDisplay.Text;
+
+            if (decimal.TryParse(txtToParse, out decimal parsedNumbers))
+            {
+                txtToParse = parsedNumbers.ToString("C");
+            }
+
+            result = parsedNumbers;
         }
         #endregion
     }
