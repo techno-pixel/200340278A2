@@ -27,7 +27,7 @@ namespace _200340278A2
         public operation Operation;
         private string CurrentDisplay = "0";
 
-        // no code
+        // has code
         #region Constructor
         /// <summary>
         /// Default Constructor 
@@ -86,7 +86,14 @@ namespace _200340278A2
         /// <param name="e"></param>
         private void btnBack_Click(object sender, EventArgs e)
         {
-
+            if (txtDisplay.Text.Length < 1)
+            {
+                MessageBox.Show("You need some values to erase!");
+            }
+            else
+            {
+                txtDisplay.Text = txtDisplay.Text.Substring(0, txtDisplay.TextLength - 1);
+            }
         }
 
         /// <summary>
@@ -98,7 +105,7 @@ namespace _200340278A2
         {
             this.txtDisplay.Text = string.Empty;
             this.txtMemoryUsed.Text = string.Empty;
-            this.CurrentDisplay = string.Empty;
+            this.CurrentDisplay = "0";
             this.txtDisplay.Text = "0";
         }
 
@@ -453,13 +460,8 @@ namespace _200340278A2
 
             if(e.KeyChar == (char)8)
             {
-                if(txtDisplay.Text.Length < 1)
-                {
-                    MessageBox.Show("You need some values to erase!");
-                } else
-                {
-                    txtDisplay.Text = txtDisplay.Text.Substring(0, txtDisplay.TextLength - 1);
-                }
+                btnBack.PerformClick();
+                e.Handled = true;
             }
         }
         #endregion
