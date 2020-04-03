@@ -61,6 +61,10 @@ namespace _200340278A2
 
         // no code
         #region TextBoxes
+        private void txtOperationString_TextChanged(object sender, EventArgs e)
+        {
+
+        } 
 
         /// <summary>
         /// Shows input from the user
@@ -497,6 +501,12 @@ namespace _200340278A2
             if(e.KeyChar.Equals('.') || e.KeyChar.Equals(Keys.OemPeriod))
             {
                 btnPeriod.PerformClick();
+                e.Handled = true;
+            }
+
+            if(e.KeyChar.Equals('+') || e.KeyChar.Equals(Keys.Oemplus))
+            {
+                btnAddition.PerformClick();
                 e.Handled = true;
             }
         }
