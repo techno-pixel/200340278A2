@@ -508,10 +508,10 @@ namespace _200340278A2
             if (decimal.TryParse(txtToParse, out decimal parsedNumbers))
             {
                 inverseResult = 1 / parsedNumbers;
-                CurrentDisplay = inverseResult.ToString();
-                txtDisplay.Text = CurrentDisplay;
+                txtDisplay.Text = inverseResult.ToString();
+                CurrentDisplay = string.Empty;
             }
-            txtDisplay.GotFocus += txtDisplay_GotFocus;
+            txtDisplay.Focus();
         }
 
         private void Parse()
