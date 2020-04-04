@@ -136,13 +136,18 @@ namespace _200340278A2
         /// <param name="e"></param>
         private void btnParaL_Click(object sender, EventArgs e)
         {
-            if(this.txtDisplay.Text == "0")
+            string removeDisplay = txtDisplay.Text;
+            txtDisplay.Text = string.Empty;
+
+            txtOperationString.Text = string.Empty;
+
+            indexOperation.Add(removeDisplay);
+
+            indexOperation.Add("(");
+
+            foreach (string indexOps in indexOperation)
             {
-                this.txtDisplay.Text = "(";
-            } else
-            {
-                this.txtDisplay.Text = txtDisplay.Text + "(";
-                this.CurrentDisplay = txtDisplay.Text;
+                txtOperationString.Text = txtOperationString.Text + indexOps;
             }
             txtDisplay.GotFocus += txtDisplay_GotFocus;
         }
@@ -154,16 +159,27 @@ namespace _200340278A2
         /// <param name="e"></param>
         private void btnParaR_Click(object sender, EventArgs e)
         {
-            if (this.txtDisplay.Text.Length < 1)
+            if (this.indexOperation.Count < 1)
             {
                 MessageBox.Show("Invalid use of closing parentheses");
             }
             else
             {
-                this.txtDisplay.Text = txtDisplay.Text + ")";
-                this.CurrentDisplay = txtDisplay.Text;
+                string removeDisplay = txtDisplay.Text;
+                txtDisplay.Text = string.Empty;
+
+                txtOperationString.Text = string.Empty;
+
+                indexOperation.Add(removeDisplay);
+
+                indexOperation.Add(")");
+
+                foreach (string indexOps in indexOperation)
+                {
+                    txtOperationString.Text = txtOperationString.Text + indexOps;
+                }
+                txtDisplay.GotFocus += txtDisplay_GotFocus;
             }
-            txtDisplay.GotFocus += txtDisplay_GotFocus;
         }
         #endregion
 
