@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -26,6 +27,7 @@ namespace _200340278A2
     {
         public operation Operation;
         private string CurrentDisplay = "0";
+        private List<string> indexOperation = new List<string>();
 
         // has code
         #region Constructor
@@ -51,6 +53,7 @@ namespace _200340278A2
             txtDisplay.Enabled = true;
             txtDisplay.Cursor = Cursors.Arrow;
             txtDisplay.GotFocus += txtDisplay_GotFocus;
+            txtOperationString.ReadOnly = true;
         }
 
         private void txtDisplay_GotFocus(object sender, EventArgs e)
@@ -97,6 +100,8 @@ namespace _200340278A2
         /// <param name="e"></param>
         private void btnBack_Click(object sender, EventArgs e)
         {
+            txtDisplay.Focus();
+            txtDisplay.GotFocus += txtDisplay_GotFocus;
             if((txtDisplay.Text.Length < 1))
             {
                 MessageBox.Show("No values to erase");
@@ -117,7 +122,10 @@ namespace _200340278A2
         {
             this.txtMemoryUsed.Text = string.Empty;
             this.CurrentDisplay = "0";
+            this.indexOperation.Clear();
             this.txtDisplay.Text = string.Empty;
+            this.txtOperationString.Text = string.Empty;
+            txtDisplay.Focus();
             txtDisplay.GotFocus += txtDisplay_GotFocus;
         }
 
@@ -148,7 +156,7 @@ namespace _200340278A2
         {
             if (this.txtDisplay.Text.Length < 1)
             {
-                MessageBox.Show("Invalud use of closing parentheses");
+                MessageBox.Show("Invalid use of closing parentheses");
             }
             else
             {
@@ -218,22 +226,76 @@ namespace _200340278A2
 
         private void btnDivide_Click(object sender, EventArgs e)
         {
+            string removeDisplay = txtDisplay.Text;
+            txtDisplay.Text = string.Empty;
 
+            txtOperationString.Text = string.Empty;
+
+            indexOperation.Add(removeDisplay);
+
+            indexOperation.Add("/");
+
+            foreach (string indexOps in indexOperation)
+            {
+                txtOperationString.Text = txtOperationString.Text + indexOps;
+            }
+            txtDisplay.GotFocus += txtDisplay_GotFocus;
         }
 
         private void btnMultiply_Click(object sender, EventArgs e)
         {
+            string removeDisplay = txtDisplay.Text;
+            txtDisplay.Text = string.Empty;
 
+            txtOperationString.Text = string.Empty;
+
+            indexOperation.Add(removeDisplay);
+
+            indexOperation.Add("*");
+
+            foreach (string indexOps in indexOperation)
+            {
+                txtOperationString.Text = txtOperationString.Text + indexOps;
+            }
+            txtDisplay.GotFocus += txtDisplay_GotFocus;
         }
 
         private void btnSubstract_Click(object sender, EventArgs e)
         {
+            string removeDisplay = txtDisplay.Text;
+            txtDisplay.Text = string.Empty;
 
+            txtOperationString.Text = string.Empty;
+
+            indexOperation.Add(removeDisplay);
+
+            indexOperation.Add("-");
+
+            foreach (string indexOps in indexOperation)
+            {
+                txtOperationString.Text = txtOperationString.Text + indexOps;
+            }
+            txtDisplay.GotFocus += txtDisplay_GotFocus;
         }
 
         private void btnAddition_Click(object sender, EventArgs e)
         {
+            string removeDisplay = txtDisplay.Text;
+            txtDisplay.Text = string.Empty;
+            
+            txtOperationString.Text = string.Empty;
 
+            indexOperation.Add(removeDisplay);
+
+            string s = indexOperation[indexOperation.Count - 1];
+
+            indexOperation.Add("+");
+
+            foreach (string indexOps in indexOperation)
+            {
+                txtOperationString.Text = txtOperationString.Text + indexOps;
+            }
+            txtDisplay.GotFocus += txtDisplay_GotFocus;
         }
 
         private void btnEquals_Click(object sender, EventArgs e)
@@ -369,6 +431,8 @@ namespace _200340278A2
         #region methods
         private void AddInput(int number)
         {
+            txtDisplay.Focus();
+            txtDisplay.GotFocus += txtDisplay_GotFocus;
             if (txtDisplay.Text.Length < 1) 
             { 
                 CurrentDisplay = number.ToString();
@@ -378,7 +442,6 @@ namespace _200340278A2
                 CurrentDisplay += number;
                 txtDisplay.Text = CurrentDisplay;
             }
-            txtDisplay.GotFocus += txtDisplay_GotFocus;
         }
 
         private void AddString(string period)
@@ -507,6 +570,24 @@ namespace _200340278A2
             if(e.KeyChar.Equals('+') || e.KeyChar.Equals(Keys.Oemplus))
             {
                 btnAddition.PerformClick();
+                e.Handled = true;
+            }
+
+            if (e.KeyChar.Equals('/') || e.KeyChar.Equals(Keys.Divide))
+            {
+                btnDivide.PerformClick();
+                e.Handled = true;
+            }
+
+            if (e.KeyChar.Equals('*') || e.KeyChar.Equals(Keys.Multiply))
+            {
+                btnMultiply.PerformClick();
+                e.Handled = true;
+            }
+
+            if (e.KeyChar.Equals('-') || e.KeyChar.Equals(Keys.Subtract))
+            {
+                btnSubstract.PerformClick();
                 e.Handled = true;
             }
         }
