@@ -249,13 +249,29 @@ namespace _200340278A2
 
             indexOperation.Add(removeDisplay);
 
-            indexOperation.Add("/");
-
-            foreach (string indexOps in indexOperation)
+            try
             {
-                txtOperationString.Text = txtOperationString.Text + indexOps;
+                if (txtOperationString.Text.Equals(indexOperation[indexOperation.Count - 1]) || txtOperationString.Text.Equals("+") ||
+                    txtOperationString.Text.Equals("*") || txtOperationString.Text.Equals("-"))
+                {
+                    throw new ApplicationException("Invalid use of operator");
+                }
+                else
+                {
+                    indexOperation.Add("+");
+
+                    foreach (string indexOps in indexOperation)
+                    {
+                        txtOperationString.Text = txtOperationString.Text + indexOps;
+                    }
+                    txtDisplay.GotFocus += txtDisplay_GotFocus;
+                }
             }
-            txtDisplay.GotFocus += txtDisplay_GotFocus;
+            catch (ApplicationException)
+            {
+                MessageBox.Show("Invalid use of operator");
+                btnClear.PerformClick();
+            }
         }
 
         private void btnMultiply_Click(object sender, EventArgs e)
@@ -267,16 +283,32 @@ namespace _200340278A2
 
             indexOperation.Add(removeDisplay);
 
-            indexOperation.Add("*");
-
-            foreach (string indexOps in indexOperation)
+            try
             {
-                txtOperationString.Text = txtOperationString.Text + indexOps;
+                if (txtOperationString.Text.Equals(indexOperation[indexOperation.Count - 1]) || txtOperationString.Text.Equals("/") ||
+                    txtOperationString.Text.Equals("+") || txtOperationString.Text.Equals("-"))
+                {
+                    throw new ApplicationException("Invalid use of operator");
+                }
+                else
+                {
+                    indexOperation.Add("+");
+
+                    foreach (string indexOps in indexOperation)
+                    {
+                        txtOperationString.Text = txtOperationString.Text + indexOps;
+                    }
+                    txtDisplay.GotFocus += txtDisplay_GotFocus;
+                }
             }
-            txtDisplay.GotFocus += txtDisplay_GotFocus;
+            catch (ApplicationException)
+            {
+                MessageBox.Show("Invalid use of operator");
+                btnClear.PerformClick();
+            }
         }
 
-        private void btnSubstract_Click(object sender, EventArgs e)
+        private void btnSubtract_Click(object sender, EventArgs e)
         {
             string removeDisplay = txtDisplay.Text;
             txtDisplay.Text = string.Empty;
@@ -285,13 +317,29 @@ namespace _200340278A2
 
             indexOperation.Add(removeDisplay);
 
-            indexOperation.Add("-");
-
-            foreach (string indexOps in indexOperation)
+            try
             {
-                txtOperationString.Text = txtOperationString.Text + indexOps;
+                if (txtOperationString.Text.Equals(indexOperation[indexOperation.Count - 1]) || txtOperationString.Text.Equals("/") ||
+                    txtOperationString.Text.Equals("*") || txtOperationString.Text.Equals("+"))
+                {
+                    throw new ApplicationException("Invalid use of operator");
+                }
+                else
+                {
+                    indexOperation.Add("+");
+
+                    foreach (string indexOps in indexOperation)
+                    {
+                        txtOperationString.Text = txtOperationString.Text + indexOps;
+                    }
+                    txtDisplay.GotFocus += txtDisplay_GotFocus;
+                }
             }
-            txtDisplay.GotFocus += txtDisplay_GotFocus;
+            catch (ApplicationException)
+            {
+                MessageBox.Show("Invalid use of operator");
+                btnClear.PerformClick();
+            }
         }
 
         private void btnAddition_Click(object sender, EventArgs e)
@@ -303,15 +351,28 @@ namespace _200340278A2
 
             indexOperation.Add(removeDisplay);
 
-            string s = indexOperation[indexOperation.Count - 1];
-
-            indexOperation.Add("+");
-
-            foreach (string indexOps in indexOperation)
+            try
             {
-                txtOperationString.Text = txtOperationString.Text + indexOps;
+                if(txtOperationString.Text.Equals(indexOperation[indexOperation.Count - 1]) || txtOperationString.Text.Equals("/") ||
+                    txtOperationString.Text.Equals("*") || txtOperationString.Text.Equals("-"))
+                {
+                    throw new ApplicationException("Invalid use of operator");
+                }
+                else
+                {
+                    indexOperation.Add("+");
+
+                    foreach (string indexOps in indexOperation)
+                    {
+                        txtOperationString.Text = txtOperationString.Text + indexOps;
+                    }
+                    txtDisplay.GotFocus += txtDisplay_GotFocus;
+                }
+            } catch (ApplicationException)
+            {
+                MessageBox.Show("Invalid use of operator");
+                btnClear.PerformClick();
             }
-            txtDisplay.GotFocus += txtDisplay_GotFocus;
         }
 
         private void btnEquals_Click(object sender, EventArgs e)
@@ -319,7 +380,7 @@ namespace _200340278A2
             try
             {
 
-                if (String.IsNullOrEmpty(txtDisplay.Text)) // if textbox is empty, show message
+                if (String.IsNullOrEmpty(txtOperationString.Text)) // if textbox is empty, show message
                 {
                     MessageBox.Show("You need to enter some value");
                 }
@@ -603,7 +664,7 @@ namespace _200340278A2
 
             if (e.KeyChar.Equals('-') || e.KeyChar.Equals(Keys.Subtract))
             {
-                btnSubstract.PerformClick();
+                btnSubtract.PerformClick();
                 e.Handled = true;
             }
         }

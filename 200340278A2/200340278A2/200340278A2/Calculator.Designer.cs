@@ -49,7 +49,7 @@
             this.btnOne = new System.Windows.Forms.Button();
             this.btnTwo = new System.Windows.Forms.Button();
             this.btnThree = new System.Windows.Forms.Button();
-            this.btnSubstract = new System.Windows.Forms.Button();
+            this.btnSubtract = new System.Windows.Forms.Button();
             this.btnZero = new System.Windows.Forms.Button();
             this.btnSign = new System.Windows.Forms.Button();
             this.btnPeriod = new System.Windows.Forms.Button();
@@ -311,17 +311,17 @@
             this.btnThree.UseVisualStyleBackColor = true;
             this.btnThree.Click += new System.EventHandler(this.btnThree_Click);
             // 
-            // btnSubstract
+            // btnSubtract
             // 
-            this.btnSubstract.Font = new System.Drawing.Font("Microsoft Sans Serif", 16F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnSubstract.ForeColor = System.Drawing.Color.Red;
-            this.btnSubstract.Location = new System.Drawing.Point(231, 239);
-            this.btnSubstract.Name = "btnSubstract";
-            this.btnSubstract.Size = new System.Drawing.Size(46, 42);
-            this.btnSubstract.TabIndex = 22;
-            this.btnSubstract.Text = "-";
-            this.btnSubstract.UseVisualStyleBackColor = true;
-            this.btnSubstract.Click += new System.EventHandler(this.btnSubstract_Click);
+            this.btnSubtract.Font = new System.Drawing.Font("Microsoft Sans Serif", 16F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnSubtract.ForeColor = System.Drawing.Color.Red;
+            this.btnSubtract.Location = new System.Drawing.Point(231, 239);
+            this.btnSubtract.Name = "btnSubtract";
+            this.btnSubtract.Size = new System.Drawing.Size(46, 42);
+            this.btnSubtract.TabIndex = 22;
+            this.btnSubtract.Text = "-";
+            this.btnSubtract.UseVisualStyleBackColor = true;
+            this.btnSubtract.Click += new System.EventHandler(this.btnSubtract_Click);
             // 
             // btnZero
             // 
@@ -432,7 +432,7 @@
             this.Controls.Add(this.btnPeriod);
             this.Controls.Add(this.btnSign);
             this.Controls.Add(this.btnZero);
-            this.Controls.Add(this.btnSubstract);
+            this.Controls.Add(this.btnSubtract);
             this.Controls.Add(this.btnThree);
             this.Controls.Add(this.btnTwo);
             this.Controls.Add(this.btnOne);
@@ -486,7 +486,7 @@
         private System.Windows.Forms.Button btnOne;
         private System.Windows.Forms.Button btnTwo;
         private System.Windows.Forms.Button btnThree;
-        private System.Windows.Forms.Button btnSubstract;
+        private System.Windows.Forms.Button btnSubtract;
         private System.Windows.Forms.Button btnZero;
         private System.Windows.Forms.Button btnSign;
         private System.Windows.Forms.Button btnPeriod;
