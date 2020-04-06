@@ -26,6 +26,8 @@ namespace _200340278A2
     public partial class Calculator : Form
     {
         public operation Operation;
+        public decimal firstOp = 0;
+        public decimal secondOp = 0;
         private string CurrentDisplay = "0";
         private List<string> indexOperation = new List<string>();
 
@@ -49,8 +51,6 @@ namespace _200340278A2
             txtDisplay.ReadOnly = true;
             txtDisplay.KeyPress += Calculator_KeyPress;
             txtDisplay.Text = string.Empty;
-            txtDisplay.Enabled = false;
-            txtDisplay.Enabled = true;
             txtDisplay.Cursor = Cursors.Arrow;
             txtDisplay.GotFocus += txtDisplay_GotFocus;
             txtOperationString.ReadOnly = true;
@@ -102,14 +102,9 @@ namespace _200340278A2
         {
             txtDisplay.Focus();
             txtDisplay.GotFocus += txtDisplay_GotFocus;
-            if((txtDisplay.Text.Length < 1))
+            if(txtDisplay.Text.Length > 0)
             {
-                MessageBox.Show("No values to erase");
-            } else
-            {
-                CurrentDisplay = txtDisplay.Text;
-                CurrentDisplay = CurrentDisplay.Substring(0, CurrentDisplay.Length - 1);
-                txtDisplay.Text = CurrentDisplay;
+                txtDisplay.Text = txtDisplay.Text.Substring(0, txtDisplay.Text.Length - 1);
             }
         }
 
@@ -236,7 +231,7 @@ namespace _200340278A2
         /// <param name="e"></param>
         private void btnPeriod_Click(object sender, EventArgs e)
         {
-            AddString(".");
+            txtDisplay.Text += btnPeriod.Text;
             txtDisplay.GotFocus += txtDisplay_GotFocus;
         }
 
@@ -416,8 +411,7 @@ namespace _200340278A2
         {
             if (txtDisplay.Text.Length >= 1)
             {
-                CurrentDisplay = txtDisplay.Text + "0";
-                txtDisplay.Text = CurrentDisplay;
+                txtDisplay.Text += btnZero.Text;
             }
             else
             {
@@ -428,111 +422,70 @@ namespace _200340278A2
 
         private void btnOne_Click(object sender, EventArgs e)
         {
-            AddInput(1);
+            txtDisplay.Text += btnOne.Text;
             txtDisplay.GotFocus += txtDisplay_GotFocus;
         }
 
         private void btnTwo_Click(object sender, EventArgs e)
         {
-            AddInput(2);
+            txtDisplay.Text += btnTwo.Text;
             txtDisplay.GotFocus += txtDisplay_GotFocus;
         }
 
         private void btnThree_Click(object sender, EventArgs e)
         {
-            AddInput(3);
+            txtDisplay.Text += btnThree.Text;
             txtDisplay.GotFocus += txtDisplay_GotFocus;
         }
 
         private void btnFour_Click(object sender, EventArgs e)
         {
-            AddInput(4);
+            txtDisplay.Text += btnFour.Text;
             txtDisplay.GotFocus += txtDisplay_GotFocus;
         }
 
         private void btnFive_Click(object sender, EventArgs e)
         {
-            AddInput(5);
+            txtDisplay.Text += btnFive.Text;
             txtDisplay.GotFocus += txtDisplay_GotFocus;
         }
 
         private void btnSix_Click(object sender, EventArgs e)
         {
-            AddInput(6);
+            txtDisplay.Text += btnSix.Text;
             txtDisplay.GotFocus += txtDisplay_GotFocus;
         }
 
         private void btnSeven_Click(object sender, EventArgs e)
         {
-            AddInput(7);
+            txtDisplay.Text += btnSeven.Text;
             txtDisplay.GotFocus += txtDisplay_GotFocus;
         }
 
         private void btnEight_Click(object sender, EventArgs e)
         {
-            AddInput(8);
+            txtDisplay.Text += btnEight.Text;
             txtDisplay.GotFocus += txtDisplay_GotFocus;
         }
 
         private void btnNine_Click(object sender, EventArgs e)
         {
-            AddInput(9);
+            txtDisplay.Text += btnNine.Text;
             txtDisplay.GotFocus += txtDisplay_GotFocus;
         }
         #endregion
 
         // has code
         #region methods
-        private void AddInput(int number)
-        {
-            txtDisplay.Focus();
-            txtDisplay.GotFocus += txtDisplay_GotFocus;
-            if (txtDisplay.Text.Length < 1) 
-            { 
-                CurrentDisplay = number.ToString();
-                txtDisplay.Text = CurrentDisplay;
-            } else
-            {
-                CurrentDisplay += number;
-                txtDisplay.Text = CurrentDisplay;
-            }
-        }
-
-        private void AddString(string period)
-        {
-            if(txtDisplay.Text.Equals("0"))
-            {
-                CurrentDisplay = period.ToString(); // when the current display is '0' start with a period
-                txtDisplay.Text = CurrentDisplay;
-            } else
-            {
-                CurrentDisplay += period;
-                txtDisplay.Text = CurrentDisplay;
-            }
-            txtDisplay.GotFocus += txtDisplay_GotFocus;
-        }
-
         /// <summary>
         /// operation types
         /// </summary>
         /// <param name="op"></param>
         private void PerformOperation(operation op)
         {
-            switch (Operation)
-            {
-                case operation.Subtract:
-                    //method here
-                    break;
-                case operation.Add:
-                    //method here
-                    break;
-                case operation.Multiply:
-                    //method here
-                    break;
-                case operation.Divide:
-                    //method here
-                    break;
-            }
+            Operation = op;
+            firstOp = decimal.Parse(txtDisplay.Text);
+            txtDisplay.Text = string.Empty;
         }
 
         private void Calculator_KeyPress(object sender, KeyPressEventArgs e)
