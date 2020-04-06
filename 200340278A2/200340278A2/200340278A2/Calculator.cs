@@ -249,28 +249,22 @@ namespace _200340278A2
 
             indexOperation.Add(removeDisplay);
 
-            try
-            {
-                if (txtOperationString.Text.Equals(indexOperation[indexOperation.Count - 1]) || txtOperationString.Text.Equals("+") ||
-                    txtOperationString.Text.Equals("*") || txtOperationString.Text.Equals("-"))
-                {
-                    throw new ApplicationException("Invalid use of operator");
-                }
-                else
-                {
-                    indexOperation.Add("+");
 
-                    foreach (string indexOps in indexOperation)
-                    {
-                        txtOperationString.Text = txtOperationString.Text + indexOps;
-                    }
-                    txtDisplay.GotFocus += txtDisplay_GotFocus;
-                }
-            }
-            catch (ApplicationException)
+            if (txtOperationString.Text.Equals(indexOperation[indexOperation.Count - 1]) || txtOperationString.Text.Equals("+") ||
+                txtOperationString.Text.Equals("*") || txtOperationString.Text.Equals("-"))
             {
                 MessageBox.Show("Invalid use of operator");
                 btnClear.PerformClick();
+            }
+            else
+            {
+                indexOperation.Add("/");
+
+                foreach (string indexOps in indexOperation)
+                {
+                    txtOperationString.Text = txtOperationString.Text + indexOps;
+                }
+                txtDisplay.GotFocus += txtDisplay_GotFocus;
             }
         }
 
@@ -283,28 +277,22 @@ namespace _200340278A2
 
             indexOperation.Add(removeDisplay);
 
-            try
-            {
-                if (txtOperationString.Text.Equals(indexOperation[indexOperation.Count - 1]) || txtOperationString.Text.Equals("/") ||
-                    txtOperationString.Text.Equals("+") || txtOperationString.Text.Equals("-"))
-                {
-                    throw new ApplicationException("Invalid use of operator");
-                }
-                else
-                {
-                    indexOperation.Add("+");
 
-                    foreach (string indexOps in indexOperation)
-                    {
-                        txtOperationString.Text = txtOperationString.Text + indexOps;
-                    }
-                    txtDisplay.GotFocus += txtDisplay_GotFocus;
-                }
-            }
-            catch (ApplicationException)
+            if (txtOperationString.Text.Equals(indexOperation[indexOperation.Count - 1]) || txtOperationString.Text.Equals("/") ||
+                txtOperationString.Text.Equals("+") || txtOperationString.Text.Equals("-"))
             {
                 MessageBox.Show("Invalid use of operator");
                 btnClear.PerformClick();
+            }
+            else
+            {
+                indexOperation.Add("*");
+
+                foreach (string indexOps in indexOperation)
+                {
+                    txtOperationString.Text = txtOperationString.Text + indexOps;
+                }
+                txtDisplay.GotFocus += txtDisplay_GotFocus;
             }
         }
 
@@ -316,29 +304,23 @@ namespace _200340278A2
             txtOperationString.Text = string.Empty;
 
             indexOperation.Add(removeDisplay);
+            string s = indexOperation[indexOperation.Count - 1];
 
-            try
-            {
-                if (txtOperationString.Text.Equals(indexOperation[indexOperation.Count - 1]) || txtOperationString.Text.Equals("/") ||
-                    txtOperationString.Text.Equals("*") || txtOperationString.Text.Equals("+"))
-                {
-                    throw new ApplicationException("Invalid use of operator");
-                }
-                else
-                {
-                    indexOperation.Add("+");
-
-                    foreach (string indexOps in indexOperation)
-                    {
-                        txtOperationString.Text = txtOperationString.Text + indexOps;
-                    }
-                    txtDisplay.GotFocus += txtDisplay_GotFocus;
-                }
-            }
-            catch (ApplicationException)
+            if (txtOperationString.Text.Equals(s) || txtOperationString.Text.Equals("/") ||
+                txtOperationString.Text.Equals("*") || txtOperationString.Text.Equals("+"))
             {
                 MessageBox.Show("Invalid use of operator");
                 btnClear.PerformClick();
+            }
+            else
+            {
+                indexOperation.Add("-");
+
+                foreach (string indexOps in indexOperation)
+                {
+                    txtOperationString.Text = txtOperationString.Text + indexOps;
+                }
+                txtDisplay.GotFocus += txtDisplay_GotFocus;
             }
         }
 
@@ -351,27 +333,22 @@ namespace _200340278A2
 
             indexOperation.Add(removeDisplay);
 
-            try
-            {
-                if(txtOperationString.Text.Equals(indexOperation[indexOperation.Count - 1]) || txtOperationString.Text.Equals("/") ||
-                    txtOperationString.Text.Equals("*") || txtOperationString.Text.Equals("-"))
-                {
-                    throw new ApplicationException("Invalid use of operator");
-                }
-                else
-                {
-                    indexOperation.Add("+");
-
-                    foreach (string indexOps in indexOperation)
-                    {
-                        txtOperationString.Text = txtOperationString.Text + indexOps;
-                    }
-                    txtDisplay.GotFocus += txtDisplay_GotFocus;
-                }
-            } catch (ApplicationException)
+         
+            if(indexOperation[indexOperation.Count - 1].Equals("+") || indexOperation[indexOperation.Count - 1].Equals("-") ||
+                indexOperation[indexOperation.Count - 1].Equals("/") || indexOperation[indexOperation.Count - 1].Equals("*"))
             {
                 MessageBox.Show("Invalid use of operator");
                 btnClear.PerformClick();
+            }
+            else
+            {
+                indexOperation.Add("+");
+
+                foreach (string indexOps in indexOperation)
+                {
+                    txtOperationString.Text = txtOperationString.Text + indexOps;
+                }
+                txtDisplay.GotFocus += txtDisplay_GotFocus;
             }
         }
 
