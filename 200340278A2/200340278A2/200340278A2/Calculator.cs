@@ -30,6 +30,9 @@ namespace _200340278A2
         public decimal secondOp = 0;
         private string CurrentDisplay = "0";
         private List<string> indexOperation = new List<string>();
+        private const string OPERATORS = "+-/*.";
+        protected int countL = 0;
+        protected int countR = 0;
 
         // has code
         #region Constructor
@@ -131,19 +134,8 @@ namespace _200340278A2
         /// <param name="e"></param>
         private void btnParaL_Click(object sender, EventArgs e)
         {
-            string removeDisplay = txtDisplay.Text;
-            txtDisplay.Text = string.Empty;
-
-            txtOperationString.Text = string.Empty;
-
-            indexOperation.Add(removeDisplay);
-
-            indexOperation.Add("(");
-
-            foreach (string indexOps in indexOperation)
-            {
-                txtOperationString.Text = txtOperationString.Text + indexOps;
-            }
+            txtDisplay.Text += btnParaL.Text;
+            countL++;
             txtDisplay.GotFocus += txtDisplay_GotFocus;
         }
 
@@ -154,27 +146,39 @@ namespace _200340278A2
         /// <param name="e"></param>
         private void btnParaR_Click(object sender, EventArgs e)
         {
-            if (this.indexOperation.Count < 1)
-            {
-                MessageBox.Show("Invalid use of closing parentheses");
-            }
-            else
-            {
-                string removeDisplay = txtDisplay.Text;
-                txtDisplay.Text = string.Empty;
+            txtDisplay.Text += btnParaR.Text;
+            countR++;
+            txtDisplay.GotFocus += txtDisplay_GotFocus;
 
-                txtOperationString.Text = string.Empty;
+            //if (countR + 1 == countL)
+            //{
+            //    txtDisplay.Text += btnParaR.Text;
+            //    countR++;
 
-                indexOperation.Add(removeDisplay);
+            //    string removeDisplay = txtDisplay.Text;
+            //    txtDisplay.Text = string.Empty;
 
-                indexOperation.Add(")");
+            //    txtOperationString.Text = string.Empty;
 
-                foreach (string indexOps in indexOperation)
-                {
-                    txtOperationString.Text = txtOperationString.Text + indexOps;
-                }
-                txtDisplay.GotFocus += txtDisplay_GotFocus;
-            }
+            //    indexOperation.Add(removeDisplay);
+
+            //    foreach (string indexOps in indexOperation)
+            //    {
+            //        txtOperationString.Text = txtOperationString.Text + indexOps;
+            //    }
+            //} else
+            //{
+            //    if (string.IsNullOrEmpty(txtDisplay.Text))
+            //    {
+            //        txtDisplay.Text = txtDisplay.Text;
+            //    }
+            //    else
+            //    {
+            //        txtDisplay.Text += btnParaR.Text;
+            //        countR++;
+            //    }
+            //}
+            //txtDisplay.GotFocus += txtDisplay_GotFocus;
         }
         #endregion
 
@@ -231,120 +235,142 @@ namespace _200340278A2
         /// <param name="e"></param>
         private void btnPeriod_Click(object sender, EventArgs e)
         {
-            txtDisplay.Text += btnPeriod.Text;
+            if (string.IsNullOrEmpty(txtDisplay.Text))
+            {
+                txtDisplay.Text += "0.";
+            }
+            else if (OPERATORS.Contains(txtDisplay.Text.Last()))
+            {
+                txtDisplay.Text = txtDisplay.Text;
+            } 
+            else
+            {
+                txtDisplay.Text += btnPeriod.Text;
+            }
             txtDisplay.GotFocus += txtDisplay_GotFocus;
         }
 
         private void btnDivide_Click(object sender, EventArgs e)
         {
-            string removeDisplay = txtDisplay.Text;
-            txtDisplay.Text = string.Empty;
-
-            txtOperationString.Text = string.Empty;
-
-            indexOperation.Add(removeDisplay);
-
-
-            if (txtOperationString.Text.Equals(indexOperation[indexOperation.Count - 1]) || txtOperationString.Text.Equals("+") ||
-                txtOperationString.Text.Equals("*") || txtOperationString.Text.Equals("-"))
+            if((countL == countR) && (countL > 0 && countR > 0))
             {
-                MessageBox.Show("Invalid use of operator");
-                btnClear.PerformClick();
-            }
-            else
-            {
+                string removeDisplay = txtDisplay.Text;
+                txtDisplay.Text = string.Empty;
+
+                txtOperationString.Text = string.Empty;
+
+                indexOperation.Add(removeDisplay);
+
                 indexOperation.Add("/");
 
                 foreach (string indexOps in indexOperation)
                 {
                     txtOperationString.Text = txtOperationString.Text + indexOps;
                 }
-                txtDisplay.GotFocus += txtDisplay_GotFocus;
+                countL = 0;
+                countR = 0;
+            } else if (string.IsNullOrEmpty(txtDisplay.Text) || OPERATORS.Contains(txtDisplay.Text.Last()))
+            {
+                txtDisplay.Text = txtDisplay.Text;
             }
+            else
+            {
+                txtDisplay.Text += btnDivide.Text;
+            }
+            txtDisplay.GotFocus += txtDisplay_GotFocus;
         }
 
         private void btnMultiply_Click(object sender, EventArgs e)
         {
-            string removeDisplay = txtDisplay.Text;
-            txtDisplay.Text = string.Empty;
-
-            txtOperationString.Text = string.Empty;
-
-            indexOperation.Add(removeDisplay);
-
-
-            if (txtOperationString.Text.Equals(indexOperation[indexOperation.Count - 1]) || txtOperationString.Text.Equals("/") ||
-                txtOperationString.Text.Equals("+") || txtOperationString.Text.Equals("-"))
+            if ((countL == countR) && (countL > 0 && countR > 0))
             {
-                MessageBox.Show("Invalid use of operator");
-                btnClear.PerformClick();
-            }
-            else
-            {
+                string removeDisplay = txtDisplay.Text;
+                txtDisplay.Text = string.Empty;
+
+                txtOperationString.Text = string.Empty;
+
+                indexOperation.Add(removeDisplay);
+
                 indexOperation.Add("*");
 
                 foreach (string indexOps in indexOperation)
                 {
                     txtOperationString.Text = txtOperationString.Text + indexOps;
                 }
-                txtDisplay.GotFocus += txtDisplay_GotFocus;
+                countL = 0;
+                countR = 0;
             }
+            else if (string.IsNullOrEmpty(txtDisplay.Text) || OPERATORS.Contains(txtDisplay.Text.Last()))
+            {
+                txtDisplay.Text = txtDisplay.Text;
+            }
+            else
+            {
+                txtDisplay.Text += btnMultiply.Text;
+            }
+            txtDisplay.GotFocus += txtDisplay_GotFocus;
         }
 
         private void btnSubtract_Click(object sender, EventArgs e)
         {
-            string removeDisplay = txtDisplay.Text;
-            txtDisplay.Text = string.Empty;
-
-            txtOperationString.Text = string.Empty;
-
-            indexOperation.Add(removeDisplay);
-            string s = indexOperation[indexOperation.Count - 1];
-
-            if (txtOperationString.Text.Equals(s) || txtOperationString.Text.Equals("/") ||
-                txtOperationString.Text.Equals("*") || txtOperationString.Text.Equals("+"))
+            if ((countL == countR) && (countL > 0 && countR > 0))
             {
-                MessageBox.Show("Invalid use of operator");
-                btnClear.PerformClick();
-            }
-            else
-            {
+                string removeDisplay = txtDisplay.Text;
+                txtDisplay.Text = string.Empty;
+
+                txtOperationString.Text = string.Empty;
+
+                indexOperation.Add(removeDisplay);
+
                 indexOperation.Add("-");
 
                 foreach (string indexOps in indexOperation)
                 {
                     txtOperationString.Text = txtOperationString.Text + indexOps;
                 }
-                txtDisplay.GotFocus += txtDisplay_GotFocus;
+                countL = 0;
+                countR = 0;
             }
+            else if (string.IsNullOrEmpty(txtDisplay.Text) || OPERATORS.Contains(txtDisplay.Text.Last()))
+            {
+                txtDisplay.Text = txtDisplay.Text;
+            }
+            else
+            {
+                txtDisplay.Text += btnSubtract.Text;
+            }
+            txtDisplay.GotFocus += txtDisplay_GotFocus;
         }
 
         private void btnAddition_Click(object sender, EventArgs e)
         {
-            string removeDisplay = txtDisplay.Text;
-            txtDisplay.Text = string.Empty;
-            
-            txtOperationString.Text = string.Empty;
-
-            indexOperation.Add(removeDisplay);
-
-         
-            if(indexOperation[indexOperation.Count - 1].Equals("+") || indexOperation[indexOperation.Count - 1].Equals("-") ||
-                indexOperation[indexOperation.Count - 1].Equals("/") || indexOperation[indexOperation.Count - 1].Equals("*"))
+            if((countL == countR) && (countL > 0 && countR > 0))
             {
-                MessageBox.Show("Invalid use of operator");
-                btnClear.PerformClick();
-            }
-            else
-            {
+                string removeDisplay = txtDisplay.Text;
+                txtDisplay.Text = string.Empty;
+
+                txtOperationString.Text = string.Empty;
+
+                indexOperation.Add(removeDisplay);
+
                 indexOperation.Add("+");
 
                 foreach (string indexOps in indexOperation)
                 {
                     txtOperationString.Text = txtOperationString.Text + indexOps;
                 }
-                txtDisplay.GotFocus += txtDisplay_GotFocus;
+                countL = 0;
+                countR = 0;
             }
+            else if (string.IsNullOrEmpty(txtDisplay.Text) || OPERATORS.Contains(txtDisplay.Text.Last()))
+            {
+                txtDisplay.Text = txtDisplay.Text;
+            }
+            else
+            {
+                txtDisplay.Text += btnAddition.Text;
+            }
+            txtDisplay.GotFocus += txtDisplay_GotFocus;
         }
 
         private void btnEquals_Click(object sender, EventArgs e)
