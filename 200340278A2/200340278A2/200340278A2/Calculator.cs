@@ -13,9 +13,8 @@ namespace _200340278A2
     #region MemoryCalculator Class
     public class MemoryCalculator : _200340278A2.Calculator
     {
-        protected Stack memoryStack = new Stack();
 
-        public override void memAdd()
+        protected override void memAdd()
         {
             if(memAddClick == true)
             {
@@ -32,7 +31,7 @@ namespace _200340278A2
             }
         }
 
-        public override void memStore()
+        protected override void memStore()
         {
             if (storeClicked == true)
             {
@@ -41,7 +40,7 @@ namespace _200340278A2
             }
         }
 
-        public override void memClear()
+        protected override void memClear()
         {
             if (memClearClicked == true)
             {
@@ -50,7 +49,7 @@ namespace _200340278A2
             }
         }
 
-        public override void memRecall()
+        protected override void memRecall()
         {
             if (recallClicked == true)
             {
@@ -72,6 +71,7 @@ namespace _200340278A2
         protected bool recallClicked = false;
         protected bool memAddClick = false;
         protected bool memClearClicked = false;
+        protected Stack memoryStack = new Stack();
         protected DataTable CalendarDataTable = new DataTable();  // object that behaves like excel tables to perform calculations while following order of operations
 
         // has code
@@ -216,6 +216,7 @@ namespace _200340278A2
         {
             memClearClicked = true;
             txtMemoryUsed.Text = string.Empty;
+            memClear();
         }
 
         /// <summary>
@@ -226,6 +227,7 @@ namespace _200340278A2
         protected void btnMemRecall_Click(object sender, EventArgs e)
         {
             recallClicked = true;
+            memRecall();
         }
 
         /// <summary>
@@ -237,6 +239,7 @@ namespace _200340278A2
         {
             storeClicked = true;
             txtMemoryUsed.Text = "M";
+            memStore();
         }
 
         /// <summary>
@@ -247,6 +250,7 @@ namespace _200340278A2
         protected void btnMemAdd_Click(object sender, EventArgs e)
         {
             memAddClick = true;
+            memAdd();
         }
         #endregion
         
@@ -685,24 +689,49 @@ namespace _200340278A2
             txtDisplay.Focus();
         }
 
-        public virtual void memAdd()
+        protected virtual void memAdd()
         {
-
+            if (memAddClick == true)
+            {
+                if (memoryStack.Count < 1)
+                {
+                    MessageBox.Show("You need to store a value first!");
+                }
+                else
+                {
+                    string toAdd = memoryStack.Pop().ToString();
+                    double resulties = Double.Parse(toAdd) + double.Parse(txtDisplay.Text);
+                    memoryStack.Push(resulties);
+                    memAddClick = false;
+                }
+            }
         }
 
-        public virtual void memStore()
+        protected virtual void memStore()
         {
-
+            if (storeClicked == true)
+            {
+                memoryStack.Push(txtDisplay.Text);
+                storeClicked = false;
+            }
         }
 
-        public virtual void memClear()
+        protected virtual void memClear()
         {
-
+            if (memClearClicked == true)
+            {
+                memoryStack.Clear();
+                memClearClicked = false;
+            }
         }
 
-        public virtual void memRecall()
+        protected virtual void memRecall()
         {
-
+            if (recallClicked == true)
+            {
+                txtDisplay.Text = memoryStack.Pop().ToString();
+                recallClicked = false;
+            }
         }
         #endregion
     }
