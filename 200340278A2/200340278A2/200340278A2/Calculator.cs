@@ -1,38 +1,25 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
 using System.Linq;
-using System.Text;
 using System.Text.RegularExpressions;
-using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.Data; // for evaluating order of operations
+
 
 namespace _200340278A2
 {
-    public enum operation
-    {
-        /// <summary>
-        /// Operation subtract  
-        /// </summary>
-        Subtract,
-        Add,
-        Multiply,
-        Divide
-    }
-
     public partial class Calculator : Form
     {
-        public operation Operation;
-        public decimal firstOp = 0;
-        public decimal secondOp = 0;
         private string CurrentDisplay = "0";
         private List<string> indexOperation = new List<string>();
         private const string OPERATORS = "+-/*.";
         protected int countL = 0;
         protected int countR = 0;
+        
+        // object that behaves like excel tables
+        protected DataTable CalendarDataTable = new DataTable();
+
+
 
         // has code
         #region Constructor
@@ -105,7 +92,13 @@ namespace _200340278A2
         {
             txtDisplay.Focus();
             txtDisplay.GotFocus += txtDisplay_GotFocus;
-            if(txtDisplay.Text.Length > 0)
+            if(txtDisplay.Text.Last().Equals("("))
+            {
+                countL--;
+            } else if(txtDisplay.Text.Last().Equals(")"))
+            {
+                countR--;
+            } else if (txtDisplay.Text.Length > 0)
             {
                 txtDisplay.Text = txtDisplay.Text.Substring(0, txtDisplay.Text.Length - 1);
             }
@@ -375,25 +368,45 @@ namespace _200340278A2
 
         private void btnEquals_Click(object sender, EventArgs e)
         {
+            string result = string.Empty;
+
             try
             {
 
-                if (String.IsNullOrEmpty(txtOperationString.Text)) // if textbox is empty, show message
+                if (OPERATORS.Contains(txtDisplay.Text.Last())) //
                 {
-                    MessageBox.Show("You need to enter some value");
+                    txtDisplay.Text = txtDisplay.Text.Substring(0, txtDisplay.Text.Length - 1);
+                } else if (countL != countR)
+                {
+                    MessageBox.Show("Your brackets are not balanced!");
+                    txtDisplay.GotFocus += txtDisplay_GotFocus;
                 }
-                else if (!Regex.IsMatch(txtDisplay.Text, @"^([-+]? ?(\d+(\.\d{0,8})?)( ?[-+*\/] ?)?)$"))
+                else if (!Regex.IsMatch(txtDisplay.Text, @"^([\d \.()+]{0,16})$"))
                 {
                     throw new ApplicationException("Please enter only numbers/decimals.");
                 }
                 else
                 {
                     // method(); // if everything passes, calculate
+                    string removeDisplay = txtDisplay.Text;
+                    txtDisplay.Text = string.Empty;
+
+                    txtOperationString.Text = string.Empty;
+
+                    indexOperation.Add(removeDisplay);
+
+                    foreach (string indexOps in indexOperation)
+                    {
+                        txtOperationString.Text = txtOperationString.Text + indexOps;
+                    }
+
+                    result = CalendarDataTable.Compute(txtOperationString.Text,"").ToString();
+                    txtOperationString.Text = result;
                 }
             }
             catch (ApplicationException) // catch the exception to not break the program
             {
-                MessageBox.Show("Please enter only numbers/decimals.");
+                MessageBox.Show("Please enter only valid numbers/decimals and operators.");
             }
         }
         #endregion
@@ -503,17 +516,6 @@ namespace _200340278A2
 
         // has code
         #region methods
-        /// <summary>
-        /// operation types
-        /// </summary>
-        /// <param name="op"></param>
-        private void PerformOperation(operation op)
-        {
-            Operation = op;
-            firstOp = decimal.Parse(txtDisplay.Text);
-            txtDisplay.Text = string.Empty;
-        }
-
         private void Calculator_KeyPress(object sender, KeyPressEventArgs e)
         {
             if(e.KeyChar.Equals('0') || e.KeyChar.Equals(Keys.NumPad0))
