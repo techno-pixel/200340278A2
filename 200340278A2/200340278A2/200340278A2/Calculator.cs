@@ -10,43 +10,56 @@ using System.Collections; // for the stack
 
 namespace _200340278A2
 {
+    #region MemoryCalculator Class
     public class MemoryCalculator : _200340278A2.Calculator
     {
+        protected Stack memoryStack = new Stack();
 
-        public void memAdd()
+        public override void memAdd()
         {
-            if (memAddClick == true)
+            if(memAddClick == true)
             {
-                string toAdd = memoryStack.Pop().ToString();
-                double resulties = Double.Parse(toAdd) + double.Parse(txtDisplay.Text);
-                memoryStack.Push(resulties);
+                if(memoryStack.Count < 1)
+                {
+                    MessageBox.Show("You need to store a value first!");
+                } else
+                {
+                    string toAdd = memoryStack.Pop().ToString();
+                    double resulties = Double.Parse(toAdd) + double.Parse(txtDisplay.Text);
+                    memoryStack.Push(resulties);
+                    memAddClick = false;
+                }
             }
         }
 
-        public void memStore()
+        public override void memStore()
         {
             if (storeClicked == true)
             {
                 memoryStack.Push(txtDisplay.Text);
+                storeClicked = false;
             }
         }
 
-        public void memClear()
+        public override void memClear()
         {
             if (memClearClicked == true)
             {
                 memoryStack.Clear();
+                memClearClicked = false;
             }
         }
 
-        public void memRecall()
+        public override void memRecall()
         {
             if (recallClicked == true)
             {
                 txtDisplay.Text = memoryStack.Pop().ToString();
+                recallClicked = false;
             }
         }
     }
+    #endregion
 
     public partial class Calculator : Form
     {
@@ -59,10 +72,7 @@ namespace _200340278A2
         protected bool recallClicked = false;
         protected bool memAddClick = false;
         protected bool memClearClicked = false;
-        protected Stack memoryStack = new Stack();
-        protected MemoryCalculator newMem = new MemoryCalculator();
-        // object that behaves like excel tables to perform calculations while following order of operations
-        protected DataTable CalendarDataTable = new DataTable();
+        protected DataTable CalendarDataTable = new DataTable();  // object that behaves like excel tables to perform calculations while following order of operations
 
         // has code
         #region Constructor
@@ -205,9 +215,7 @@ namespace _200340278A2
         protected void btnMemClear_Click(object sender, EventArgs e)
         {
             memClearClicked = true;
-            newMem.memClear();
             txtMemoryUsed.Text = string.Empty;
-            memClearClicked = false;
         }
 
         /// <summary>
@@ -218,8 +226,6 @@ namespace _200340278A2
         protected void btnMemRecall_Click(object sender, EventArgs e)
         {
             recallClicked = true;
-            newMem.memRecall();
-            recallClicked = false;
         }
 
         /// <summary>
@@ -230,9 +236,7 @@ namespace _200340278A2
         protected void btnMemStore_Click(object sender, EventArgs e)
         {
             storeClicked = true;
-            newMem.memStore();
             txtMemoryUsed.Text = "M";
-            storeClicked = false;
         }
 
         /// <summary>
@@ -242,18 +246,10 @@ namespace _200340278A2
         /// <param name="e"></param>
         protected void btnMemAdd_Click(object sender, EventArgs e)
         {
-            if(memoryStack.Count < 1)
-            {
-                MessageBox.Show("You need to store a value first!");
-            } else
-            {
-                memAddClick = true;
-                newMem.memAdd();
-                memAddClick = false;
-            }
+            memAddClick = true;
         }
         #endregion
-
+        
         // has code
         #region Operation Buttons (+-*/.=)
         /// <summary>
@@ -687,6 +683,26 @@ namespace _200340278A2
                 CurrentDisplay = string.Empty;
             }
             txtDisplay.Focus();
+        }
+
+        public virtual void memAdd()
+        {
+
+        }
+
+        public virtual void memStore()
+        {
+
+        }
+
+        public virtual void memClear()
+        {
+
+        }
+
+        public virtual void memRecall()
+        {
+
         }
         #endregion
     }
