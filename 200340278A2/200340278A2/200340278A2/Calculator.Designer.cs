@@ -29,7 +29,7 @@
         private void InitializeComponent()
         {
             this.txtDisplay = new System.Windows.Forms.TextBox();
-            this.txtMemoryUsed = new System.Windows.Forms.RichTextBox();
+            this.txtMemoryUsed = new System.Windows.Forms.TextBox();
             this.btnBack = new System.Windows.Forms.Button();
             this.btnClear = new System.Windows.Forms.Button();
             this.btnMemClear = new System.Windows.Forms.Button();
@@ -73,12 +73,10 @@
             // txtMemoryUsed
             // 
             this.txtMemoryUsed.Location = new System.Drawing.Point(12, 58);
-            this.txtMemoryUsed.Multiline = false;
             this.txtMemoryUsed.Name = "txtMemoryUsed";
             this.txtMemoryUsed.ReadOnly = true;
-            this.txtMemoryUsed.Size = new System.Drawing.Size(51, 43);
+            this.txtMemoryUsed.Size = new System.Drawing.Size(51, 20);
             this.txtMemoryUsed.TabIndex = 2;
-            this.txtMemoryUsed.Text = "";
             this.txtMemoryUsed.TextChanged += new System.EventHandler(this.txtMemoryUsed_TextChanged);
             // 
             // btnBack
@@ -464,9 +462,7 @@
         }
 
         #endregion
-
-        private System.Windows.Forms.TextBox txtDisplay;
-        private System.Windows.Forms.RichTextBox txtMemoryUsed;
+        private System.Windows.Forms.TextBox txtMemoryUsed;
         private System.Windows.Forms.Button btnBack;
         private System.Windows.Forms.Button btnClear;
         private System.Windows.Forms.Button btnMemClear;
@@ -495,6 +491,7 @@
         private System.Windows.Forms.Button btnParaL;
         private System.Windows.Forms.Button btnParaR;
         private System.Windows.Forms.TextBox txtOperationString;
+        protected System.Windows.Forms.TextBox txtDisplay;
     }
 }
 

@@ -4,23 +4,63 @@ using System.Linq;
 using System.Text.RegularExpressions;
 using System.Windows.Forms;
 using System.Data; // for evaluating order of operations
+using System.Collections; // for the stack
+
 
 
 namespace _200340278A2
 {
-    public partial class MemoryCalculator : Calculator
+    public class MemoryCalculator : _200340278A2.Calculator
     {
 
+        public void memAdd()
+        {
+            if (memAddClick == true)
+            {
+                string toAdd = memoryStack.Pop().ToString();
+                double resulties = Double.Parse(toAdd) + double.Parse(txtDisplay.Text);
+                memoryStack.Push(resulties);
+            }
+        }
+
+        public void memStore()
+        {
+            if (storeClicked == true)
+            {
+                memoryStack.Push(txtDisplay.Text);
+            }
+        }
+
+        public void memClear()
+        {
+            if (memClearClicked == true)
+            {
+                memoryStack.Clear();
+            }
+        }
+
+        public void memRecall()
+        {
+            if (recallClicked == true)
+            {
+                txtDisplay.Text = memoryStack.Pop().ToString();
+            }
+        }
     }
 
     public partial class Calculator : Form
     {
-        private string CurrentDisplay = "0";
-        private List<string> indexOperation = new List<string>();
-        private const string OPERATORS = "+-/*.";
+        protected string CurrentDisplay = "0";
+        protected List<string> indexOperation = new List<string>();
+        protected const string OPERATORS = "+-/*.";
         protected int countL = 0;
         protected int countR = 0;
-        
+        protected bool storeClicked = false;
+        protected bool recallClicked = false;
+        protected bool memAddClick = false;
+        protected bool memClearClicked = false;
+        protected Stack memoryStack = new Stack();
+        protected MemoryCalculator newMem = new MemoryCalculator();
         // object that behaves like excel tables to perform calculations while following order of operations
         protected DataTable CalendarDataTable = new DataTable();
 
@@ -39,7 +79,7 @@ namespace _200340278A2
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void Calculator_Load(object sender, EventArgs e)
+        protected void Calculator_Load(object sender, EventArgs e)
         {
             txtDisplay.ReadOnly = true;
             txtDisplay.KeyPress += Calculator_KeyPress;
@@ -49,7 +89,7 @@ namespace _200340278A2
             txtOperationString.ReadOnly = true;
         }
 
-        private void txtDisplay_GotFocus(object sender, EventArgs e)
+        protected void txtDisplay_GotFocus(object sender, EventArgs e)
         {
             ((TextBox)sender).Parent.Focus();
         }
@@ -57,7 +97,7 @@ namespace _200340278A2
 
         // no code
         #region TextBoxes
-        private void txtOperationString_TextChanged(object sender, EventArgs e)
+        protected void txtOperationString_TextChanged(object sender, EventArgs e)
         {
 
         } 
@@ -67,7 +107,7 @@ namespace _200340278A2
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void txtDisplay_TextChanged(object sender, EventArgs e)
+        protected void txtDisplay_TextChanged(object sender, EventArgs e)
         {
             
         }
@@ -77,7 +117,7 @@ namespace _200340278A2
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void txtMemoryUsed_TextChanged(object sender, EventArgs e)
+        protected void txtMemoryUsed_TextChanged(object sender, EventArgs e)
         {
 
         }
@@ -91,7 +131,7 @@ namespace _200340278A2
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void btnBack_Click(object sender, EventArgs e)
+        protected void btnBack_Click(object sender, EventArgs e)
         {
             txtDisplay.Focus();
             txtDisplay.GotFocus += txtDisplay_GotFocus;
@@ -118,7 +158,7 @@ namespace _200340278A2
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void btnClear_Click(object sender, EventArgs e)
+        protected void btnClear_Click(object sender, EventArgs e)
         {
             this.txtMemoryUsed.Text = string.Empty;
             this.CurrentDisplay = "0";
@@ -134,7 +174,7 @@ namespace _200340278A2
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void btnParaL_Click(object sender, EventArgs e)
+        protected void btnParaL_Click(object sender, EventArgs e)
         {
             txtDisplay.Text += btnParaL.Text;
             countL++;
@@ -146,7 +186,7 @@ namespace _200340278A2
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void btnParaR_Click(object sender, EventArgs e)
+        protected void btnParaR_Click(object sender, EventArgs e)
         {
             txtDisplay.Text += btnParaR.Text;
             countR++;
@@ -162,9 +202,12 @@ namespace _200340278A2
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void btnMemClear_Click(object sender, EventArgs e)
+        protected void btnMemClear_Click(object sender, EventArgs e)
         {
-
+            memClearClicked = true;
+            newMem.memClear();
+            txtMemoryUsed.Text = string.Empty;
+            memClearClicked = false;
         }
 
         /// <summary>
@@ -172,9 +215,11 @@ namespace _200340278A2
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void btnMemRecall_Click(object sender, EventArgs e)
+        protected void btnMemRecall_Click(object sender, EventArgs e)
         {
-
+            recallClicked = true;
+            newMem.memRecall();
+            recallClicked = false;
         }
 
         /// <summary>
@@ -182,9 +227,12 @@ namespace _200340278A2
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void btnMemStore_Click(object sender, EventArgs e)
+        protected void btnMemStore_Click(object sender, EventArgs e)
         {
-
+            storeClicked = true;
+            newMem.memStore();
+            txtMemoryUsed.Text = "M";
+            storeClicked = false;
         }
 
         /// <summary>
@@ -192,9 +240,17 @@ namespace _200340278A2
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void btnMemAdd_Click(object sender, EventArgs e)
+        protected void btnMemAdd_Click(object sender, EventArgs e)
         {
-
+            if(memoryStack.Count < 1)
+            {
+                MessageBox.Show("You need to store a value first!");
+            } else
+            {
+                memAddClick = true;
+                newMem.memAdd();
+                memAddClick = false;
+            }
         }
         #endregion
 
@@ -205,7 +261,7 @@ namespace _200340278A2
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void btnPeriod_Click(object sender, EventArgs e)
+        protected void btnPeriod_Click(object sender, EventArgs e)
         {
             if (string.IsNullOrEmpty(txtDisplay.Text))
             {
@@ -222,7 +278,7 @@ namespace _200340278A2
             txtDisplay.GotFocus += txtDisplay_GotFocus;
         }
 
-        private void btnDivide_Click(object sender, EventArgs e)
+        protected void btnDivide_Click(object sender, EventArgs e)
         {
             if((countL == countR) && (countL > 0 && countR > 0))
             {
@@ -252,7 +308,7 @@ namespace _200340278A2
             txtDisplay.GotFocus += txtDisplay_GotFocus;
         }
 
-        private void btnMultiply_Click(object sender, EventArgs e)
+        protected void btnMultiply_Click(object sender, EventArgs e)
         {
             if ((countL == countR) && (countL > 0 && countR > 0))
             {
@@ -283,7 +339,7 @@ namespace _200340278A2
             txtDisplay.GotFocus += txtDisplay_GotFocus;
         }
 
-        private void btnSubtract_Click(object sender, EventArgs e)
+        protected void btnSubtract_Click(object sender, EventArgs e)
         {
             if ((countL == countR) && (countL > 0 && countR > 0))
             {
@@ -314,7 +370,7 @@ namespace _200340278A2
             txtDisplay.GotFocus += txtDisplay_GotFocus;
         }
 
-        private void btnAddition_Click(object sender, EventArgs e)
+        protected void btnAddition_Click(object sender, EventArgs e)
         {
             if((countL == countR) && (countL > 0 && countR > 0))
             {
@@ -345,7 +401,7 @@ namespace _200340278A2
             txtDisplay.GotFocus += txtDisplay_GotFocus;
         }
 
-        private void btnEquals_Click(object sender, EventArgs e)
+        protected void btnEquals_Click(object sender, EventArgs e)
         {
             string result = string.Empty;
 
@@ -394,7 +450,7 @@ namespace _200340278A2
 
         // has code
         #region Additional Function Buttons
-        private void btnSqrt_Click(object sender, EventArgs e)
+        protected void btnSqrt_Click(object sender, EventArgs e)
         {
             if (txtDisplay.Text.Length < 1)
             {
@@ -408,7 +464,7 @@ namespace _200340278A2
             }
         }
 
-        private void btnInverse_Click(object sender, EventArgs e)
+        protected void btnInverse_Click(object sender, EventArgs e)
         {
             if(txtDisplay.Text.Length < 1)
             {
@@ -420,7 +476,7 @@ namespace _200340278A2
             }
         }
 
-        private void btnSign_Click(object sender, EventArgs e)
+        protected void btnSign_Click(object sender, EventArgs e)
         {
             if (txtDisplay.Text.Length < 1)
             {
@@ -439,7 +495,7 @@ namespace _200340278A2
 
         // has code
         #region Numerical Buttons
-        private void btnZero_Click(object sender, EventArgs e)
+        protected void btnZero_Click(object sender, EventArgs e)
         {
             if (txtDisplay.Text.Length >= 1)
             {
@@ -452,55 +508,55 @@ namespace _200340278A2
             txtDisplay.GotFocus += txtDisplay_GotFocus;
         }
 
-        private void btnOne_Click(object sender, EventArgs e)
+        protected void btnOne_Click(object sender, EventArgs e)
         {
             txtDisplay.Text += btnOne.Text;
             txtDisplay.GotFocus += txtDisplay_GotFocus;
         }
 
-        private void btnTwo_Click(object sender, EventArgs e)
+        protected void btnTwo_Click(object sender, EventArgs e)
         {
             txtDisplay.Text += btnTwo.Text;
             txtDisplay.GotFocus += txtDisplay_GotFocus;
         }
 
-        private void btnThree_Click(object sender, EventArgs e)
+        protected void btnThree_Click(object sender, EventArgs e)
         {
             txtDisplay.Text += btnThree.Text;
             txtDisplay.GotFocus += txtDisplay_GotFocus;
         }
 
-        private void btnFour_Click(object sender, EventArgs e)
+        protected void btnFour_Click(object sender, EventArgs e)
         {
             txtDisplay.Text += btnFour.Text;
             txtDisplay.GotFocus += txtDisplay_GotFocus;
         }
 
-        private void btnFive_Click(object sender, EventArgs e)
+        protected void btnFive_Click(object sender, EventArgs e)
         {
             txtDisplay.Text += btnFive.Text;
             txtDisplay.GotFocus += txtDisplay_GotFocus;
         }
 
-        private void btnSix_Click(object sender, EventArgs e)
+        protected void btnSix_Click(object sender, EventArgs e)
         {
             txtDisplay.Text += btnSix.Text;
             txtDisplay.GotFocus += txtDisplay_GotFocus;
         }
 
-        private void btnSeven_Click(object sender, EventArgs e)
+        protected void btnSeven_Click(object sender, EventArgs e)
         {
             txtDisplay.Text += btnSeven.Text;
             txtDisplay.GotFocus += txtDisplay_GotFocus;
         }
 
-        private void btnEight_Click(object sender, EventArgs e)
+        protected void btnEight_Click(object sender, EventArgs e)
         {
             txtDisplay.Text += btnEight.Text;
             txtDisplay.GotFocus += txtDisplay_GotFocus;
         }
 
-        private void btnNine_Click(object sender, EventArgs e)
+        protected void btnNine_Click(object sender, EventArgs e)
         {
             txtDisplay.Text += btnNine.Text;
             txtDisplay.GotFocus += txtDisplay_GotFocus;
@@ -509,7 +565,7 @@ namespace _200340278A2
 
         // has code
         #region methods
-        private void Calculator_KeyPress(object sender, KeyPressEventArgs e)
+        protected void Calculator_KeyPress(object sender, KeyPressEventArgs e)
         {
             if(e.KeyChar.Equals('0') || e.KeyChar.Equals(Keys.NumPad0))
             {
@@ -620,7 +676,7 @@ namespace _200340278A2
             }
         }
 
-        private void Inverse()
+        public virtual void Inverse()
         {
             decimal inverseResult;
             string txtToParse = txtDisplay.Text;
