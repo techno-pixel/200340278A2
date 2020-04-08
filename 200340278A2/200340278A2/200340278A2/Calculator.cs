@@ -8,6 +8,11 @@ using System.Data; // for evaluating order of operations
 
 namespace _200340278A2
 {
+    public partial class MemoryCalculator : Calculator
+    {
+
+    }
+
     public partial class Calculator : Form
     {
         private string CurrentDisplay = "0";
@@ -16,10 +21,8 @@ namespace _200340278A2
         protected int countL = 0;
         protected int countR = 0;
         
-        // object that behaves like excel tables
+        // object that behaves like excel tables to perform calculations while following order of operations
         protected DataTable CalendarDataTable = new DataTable();
-
-
 
         // has code
         #region Constructor
@@ -92,13 +95,19 @@ namespace _200340278A2
         {
             txtDisplay.Focus();
             txtDisplay.GotFocus += txtDisplay_GotFocus;
-            if(txtDisplay.Text.Last().Equals("("))
+            if (string.IsNullOrEmpty(txtDisplay.Text))
+            {
+                txtDisplay.Text = txtDisplay.Text;
+            }
+            else if (txtDisplay.Text.Last().Equals("("))
             {
                 countL--;
-            } else if(txtDisplay.Text.Last().Equals(")"))
+            } 
+            else if(txtDisplay.Text.Last().Equals(")"))
             {
                 countR--;
-            } else if (txtDisplay.Text.Length > 0)
+            } 
+            else if (txtDisplay.Text.Length > 0)
             {
                 txtDisplay.Text = txtDisplay.Text.Substring(0, txtDisplay.Text.Length - 1);
             }
@@ -142,36 +151,6 @@ namespace _200340278A2
             txtDisplay.Text += btnParaR.Text;
             countR++;
             txtDisplay.GotFocus += txtDisplay_GotFocus;
-
-            //if (countR + 1 == countL)
-            //{
-            //    txtDisplay.Text += btnParaR.Text;
-            //    countR++;
-
-            //    string removeDisplay = txtDisplay.Text;
-            //    txtDisplay.Text = string.Empty;
-
-            //    txtOperationString.Text = string.Empty;
-
-            //    indexOperation.Add(removeDisplay);
-
-            //    foreach (string indexOps in indexOperation)
-            //    {
-            //        txtOperationString.Text = txtOperationString.Text + indexOps;
-            //    }
-            //} else
-            //{
-            //    if (string.IsNullOrEmpty(txtDisplay.Text))
-            //    {
-            //        txtDisplay.Text = txtDisplay.Text;
-            //    }
-            //    else
-            //    {
-            //        txtDisplay.Text += btnParaR.Text;
-            //        countR++;
-            //    }
-            //}
-            //txtDisplay.GotFocus += txtDisplay_GotFocus;
         }
         #endregion
 
@@ -220,7 +199,7 @@ namespace _200340278A2
         #endregion
 
         // has code
-        #region Operation Buttons
+        #region Operation Buttons (+-*/.=)
         /// <summary>
         /// Adds a period "." to the text display
         /// </summary>
@@ -373,7 +352,7 @@ namespace _200340278A2
             try
             {
 
-                if (OPERATORS.Contains(txtDisplay.Text.Last())) //
+                if (OPERATORS.Contains(txtDisplay.Text.Last())) // if that last operator is a +-/*. then remove it
                 {
                     txtDisplay.Text = txtDisplay.Text.Substring(0, txtDisplay.Text.Length - 1);
                 } else if (countL != countR)
@@ -381,13 +360,13 @@ namespace _200340278A2
                     MessageBox.Show("Your brackets are not balanced!");
                     txtDisplay.GotFocus += txtDisplay_GotFocus;
                 }
-                else if (!Regex.IsMatch(txtDisplay.Text, @"^([\d \.()+]{0,16})$"))
+                else if (!Regex.IsMatch(txtDisplay.Text, @"[0-9]*\.?[0-9]+([-+]?[0-9]+)?|[-^+*/()]|\w+"))
                 {
                     throw new ApplicationException("Please enter only numbers/decimals.");
                 }
                 else
                 {
-                    // method(); // if everything passes, calculate
+                    // if everything passes, calculate
                     string removeDisplay = txtDisplay.Text;
                     txtDisplay.Text = string.Empty;
 
@@ -401,7 +380,9 @@ namespace _200340278A2
                     }
 
                     result = CalendarDataTable.Compute(txtOperationString.Text,"").ToString();
-                    txtOperationString.Text = result;
+                    btnClear.PerformClick();
+                    txtDisplay.GotFocus += txtDisplay_GotFocus;
+                    txtDisplay.Text = result;
                 }
             }
             catch (ApplicationException) // catch the exception to not break the program
@@ -415,34 +396,46 @@ namespace _200340278A2
         #region Additional Function Buttons
         private void btnSqrt_Click(object sender, EventArgs e)
         {
-
+            if (txtDisplay.Text.Length < 1)
+            {
+                MessageBox.Show("No value entered!");
+            } else
+            {
+                double rez = Double.Parse(txtDisplay.Text);
+                string result = Math.Sqrt(rez).ToString();
+                txtDisplay.GotFocus += txtDisplay_GotFocus;
+                txtDisplay.Text = result;
+            }
         }
 
         private void btnInverse_Click(object sender, EventArgs e)
         {
-            Inverse();
-            txtDisplay.GotFocus += txtDisplay_GotFocus;
+            if(txtDisplay.Text.Length < 1)
+            {
+                MessageBox.Show("No value entered!");
+            } else
+            {
+                Inverse();
+                txtDisplay.GotFocus += txtDisplay_GotFocus;
+            }
         }
 
         private void btnSign_Click(object sender, EventArgs e)
         {
-            //int count = 0;
-            //string s = "-";
-            //if (count == 0 || count % 2 == 0)
-            //{
-            //    CurrentDisplay = txtDisplay.Text;
-            //    txtDisplay.Text = s + " " + CurrentDisplay;
-            //    count++;
-            //}
-            //else if (count % 2 != 0)
-            //{
-
-            //}
+            if (txtDisplay.Text.Length < 1)
+            {
+                MessageBox.Show("No value entered!");
+            }
+            else
+            {
+                double rez = Double.Parse(txtDisplay.Text);
+                double result = rez - (rez * 2);
+                string finalRez = result.ToString();
+                txtDisplay.GotFocus += txtDisplay_GotFocus;
+                txtDisplay.Text = finalRez;
+            }
         }
         #endregion
-
-        //my buttons 10
-        //my buttons 0 = btnZero
 
         // has code
         #region Numerical Buttons
@@ -638,11 +631,6 @@ namespace _200340278A2
                 CurrentDisplay = string.Empty;
             }
             txtDisplay.Focus();
-        }
-
-        private void Parse()
-        {
-            
         }
         #endregion
     }
