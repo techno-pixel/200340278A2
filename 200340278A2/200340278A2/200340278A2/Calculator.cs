@@ -10,14 +10,16 @@ using System.Collections; // for the stack
 
 namespace _200340278A2
 {
-    #region KEKW not useful MemoryCalculator Class
+    #region KEKW MemoryCalculator Class
     public class MemoryCalculator : _200340278A2.Calculator
     {
+        // create a stack for memory
         public Stack memoryStack = new Stack();
 
+        // method to add text value in display to the last stored memory
         public void memAdd(Calculator cal)
         {
-            if (cal.memAddClick == true)
+            if (cal.memAddClick == true) 
             {
                 if (memoryStack.Count < 1)
                 {
@@ -35,6 +37,7 @@ namespace _200340278A2
             }
         }
 
+        // method to add text value in display to the memory stack
         public void memStore(Calculator cal)
         {
             if(cal.txtDisplay.Text.Length < 1)
@@ -49,6 +52,7 @@ namespace _200340278A2
             }
         }
 
+        // method to clear M from txtbox and to clear stack
         public void memClear(Calculator cal)
         {
             if (memoryStack.Count < 1)
@@ -61,6 +65,7 @@ namespace _200340278A2
             }
         }
 
+        // method to display last memory in stack in text display
         public void memRecall(Calculator cal)
         {
             if (memoryStack.Count < 1)
@@ -78,6 +83,9 @@ namespace _200340278A2
 
     public partial class Calculator : Form
     {
+        /// <summary>
+        /// had to create these objects so that I can call the methods in the memorycalc class
+        /// </summary>
         public class MemoryClass 
         { 
             public MemoryCalculator memCalc;
@@ -88,6 +96,7 @@ namespace _200340278A2
             }
         }
 
+        // all my variables and objects
         public string CurrentDisplay = "0";
         public List<string> indexOperation = new List<string>();
         public const string OPERATORS = "+-/*.";
@@ -112,7 +121,7 @@ namespace _200340278A2
         }
 
         /// <summary>
-        /// 
+        /// things to do on load
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
@@ -129,7 +138,7 @@ namespace _200340278A2
 
         protected void txtDisplay_GotFocus(object sender, EventArgs e)
         {
-            ((TextBox)sender).Parent.Focus();
+            ((TextBox)sender).Parent.Focus(); // to put focus back on textbox
         }
         #endregion
 
@@ -294,7 +303,7 @@ namespace _200340278A2
             {
                 txtDisplay.Text += "0.";
             }
-            else if (OPERATORS.Contains(txtDisplay.Text.Last()))
+            else if (OPERATORS.Contains(txtDisplay.Text.Last()))  // if that last operator is a +-/*. then remove it
             {
                 txtDisplay.Text = txtDisplay.Text;
             } 
@@ -305,6 +314,11 @@ namespace _200340278A2
             txtDisplay.GotFocus += txtDisplay_GotFocus;
         }
 
+        /// <summary>
+        /// Adds a /
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         protected void btnDivide_Click(object sender, EventArgs e)
         {
             if((countL == countR) && (countL > 0 && countR > 0))
@@ -324,7 +338,7 @@ namespace _200340278A2
                 }
                 countL = 0;
                 countR = 0;
-            } else if (string.IsNullOrEmpty(txtDisplay.Text) || OPERATORS.Contains(txtDisplay.Text.Last()))
+            } else if (string.IsNullOrEmpty(txtDisplay.Text) || OPERATORS.Contains(txtDisplay.Text.Last())) // if that last operator is a +-/*. then remove it
             {
                 txtDisplay.Text = txtDisplay.Text;
             }
@@ -335,6 +349,11 @@ namespace _200340278A2
             txtDisplay.GotFocus += txtDisplay_GotFocus;
         }
 
+        /// <summary>
+        /// Adds a *
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         protected void btnMultiply_Click(object sender, EventArgs e)
         {
             if ((countL == countR) && (countL > 0 && countR > 0))
@@ -355,7 +374,7 @@ namespace _200340278A2
                 countL = 0;
                 countR = 0;
             }
-            else if (string.IsNullOrEmpty(txtDisplay.Text) || OPERATORS.Contains(txtDisplay.Text.Last()))
+            else if (string.IsNullOrEmpty(txtDisplay.Text) || OPERATORS.Contains(txtDisplay.Text.Last())) // if that last operator is a +-/*. then remove it
             {
                 txtDisplay.Text = txtDisplay.Text;
             }
@@ -366,6 +385,11 @@ namespace _200340278A2
             txtDisplay.GotFocus += txtDisplay_GotFocus;
         }
 
+        /// <summary>
+        /// Adds a period -
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         protected void btnSubtract_Click(object sender, EventArgs e)
         {
             if ((countL == countR) && (countL > 0 && countR > 0))
@@ -386,7 +410,7 @@ namespace _200340278A2
                 countL = 0;
                 countR = 0;
             }
-            else if (string.IsNullOrEmpty(txtDisplay.Text) || OPERATORS.Contains(txtDisplay.Text.Last()))
+            else if (string.IsNullOrEmpty(txtDisplay.Text) || OPERATORS.Contains(txtDisplay.Text.Last())) // if that last operator is a +-/*. then remove it
             {
                 txtDisplay.Text = txtDisplay.Text;
             }
@@ -397,6 +421,11 @@ namespace _200340278A2
             txtDisplay.GotFocus += txtDisplay_GotFocus;
         }
 
+        /// <summary>
+        /// Adds a period +
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         protected void btnAddition_Click(object sender, EventArgs e)
         {
             if((countL == countR) && (countL > 0 && countR > 0))
@@ -417,7 +446,7 @@ namespace _200340278A2
                 countL = 0;
                 countR = 0;
             }
-            else if (string.IsNullOrEmpty(txtDisplay.Text) || OPERATORS.Contains(txtDisplay.Text.Last()))
+            else if (string.IsNullOrEmpty(txtDisplay.Text) || OPERATORS.Contains(txtDisplay.Text.Last())) // if that last operator is a +-/*. then remove it
             {
                 txtDisplay.Text = txtDisplay.Text;
             }
@@ -428,6 +457,11 @@ namespace _200340278A2
             txtDisplay.GotFocus += txtDisplay_GotFocus;
         }
 
+        /// <summary>
+        /// to evaluate or hit equals on the entire operation
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         protected void btnEquals_Click(object sender, EventArgs e)
         {
             string result = string.Empty;
@@ -442,10 +476,10 @@ namespace _200340278A2
                     txtDisplay.Text = txtDisplay.Text.Substring(0, txtDisplay.Text.Length - 1);
                 } else if (countL != countR)
                 {
-                    MessageBox.Show("Your brackets are not balanced!");
+                    MessageBox.Show("Your brackets are not balanced!"); // to catch unbalanced brackets i.e. ((xxx)
                     txtDisplay.GotFocus += txtDisplay_GotFocus;
                 }
-                else if (!Regex.IsMatch(txtDisplay.Text, @"[0-9]*\.?[0-9]+([-+]?[0-9]+)?|[-^+*/()]|\w+"))
+                else if (!Regex.IsMatch(txtDisplay.Text, @"[0-9]*\.?[0-9]+([-+]?[0-9]+)?|[-^+*/()]|\w+")) // small regex to allow decimals and brackets and operators
                 {
                     throw new ApplicationException("Please enter only numbers/decimals.");
                 }
@@ -464,7 +498,7 @@ namespace _200340278A2
                         txtOperationString.Text = txtOperationString.Text + indexOps;
                     }
                     result = CalendarDataTable.Compute(txtOperationString.Text, "").ToString();
-                    if (result == "∞")
+                    if (result == "∞") // x / 0 shows an infinity symbol in textbox, so i worked my way around it
                     {
                         MessageBox.Show("Cannot divide by zero");
                         btnClear.PerformClick();
@@ -487,6 +521,11 @@ namespace _200340278A2
 
         // has code
         #region Additional Function Buttons
+        /// <summary>
+        /// square root a number
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         protected void btnSqrt_Click(object sender, EventArgs e)
         {
             
@@ -499,7 +538,7 @@ namespace _200340278A2
                 double rez = Double.Parse(txtDisplay.Text);
                 if(rez < 1)
                 {
-                    MessageBox.Show("Cannot square root a negative number");
+                    MessageBox.Show("Cannot square root a negative number"); // number cant be negative
                     btnClear.PerformClick();
                 } else
                 {
@@ -510,6 +549,11 @@ namespace _200340278A2
             }
         }
 
+        /// <summary>
+        /// 1/X function
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         protected void btnInverse_Click(object sender, EventArgs e)
         {
             if(txtDisplay.Text.Length < 1)
@@ -522,6 +566,11 @@ namespace _200340278A2
             }
         }
 
+        /// <summary>
+        /// reverses the sign, adds - at the beginning if it is positive, and vice versa removes it if it is negative
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         protected void btnSign_Click(object sender, EventArgs e)
         {
             if (txtDisplay.Text.Length < 1)
@@ -531,7 +580,7 @@ namespace _200340278A2
             else
             {
                 double rez = Double.Parse(txtDisplay.Text);
-                double result = rez - (rez * 2);
+                double result = rez * (-1);
                 string finalRez = result.ToString();
                 txtDisplay.GotFocus += txtDisplay_GotFocus;
                 txtDisplay.Text = finalRez;
@@ -539,7 +588,7 @@ namespace _200340278A2
         }
         #endregion
 
-        // has code
+        // all of the code is just appending the button's text (i.e. the numbers) to the text box
         #region Numerical Buttons
         protected void btnZero_Click(object sender, EventArgs e)
         {
@@ -609,7 +658,7 @@ namespace _200340278A2
         }
         #endregion
 
-        // has code
+        // just if statements to measure key presses so that we can capture keyboard typing too
         #region methods
         protected void Calculator_KeyPress(object sender, KeyPressEventArgs e)
         {
@@ -722,6 +771,7 @@ namespace _200340278A2
             }
         }
 
+        // method to perform 1/X
         public virtual void Inverse()
         {
             decimal inverseResult;
