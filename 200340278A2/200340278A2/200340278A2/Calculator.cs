@@ -721,6 +721,8 @@ namespace _200340278A2
                     string toAdd = memoryStack.Pop().ToString();
                     double resulties = Double.Parse(toAdd) + double.Parse(txtDisplay.Text);
                     memoryStack.Push(resulties);
+                    txtOperationString.Text = resulties.ToString();
+                    txtDisplay.Text = string.Empty;
                     memAddClick = false;
                 }
             }
@@ -735,6 +737,7 @@ namespace _200340278A2
             {
                 memoryStack.Push(txtDisplay.Text);
                 txtMemoryUsed.Text = "M";
+                txtDisplay.Text = string.Empty;
                 storeClicked = false;
             }
         }
