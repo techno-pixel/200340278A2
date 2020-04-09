@@ -463,36 +463,36 @@
         }
 
         #endregion
-        private System.Windows.Forms.Button btnBack;
-        private System.Windows.Forms.Button btnClear;
-        private System.Windows.Forms.Button btnSeven;
-        private System.Windows.Forms.Button btnEight;
-        private System.Windows.Forms.Button btnNine;
-        private System.Windows.Forms.Button btnDivide;
-        private System.Windows.Forms.Button btnSqrt;
-        private System.Windows.Forms.Button btnFour;
-        private System.Windows.Forms.Button btnFive;
-        private System.Windows.Forms.Button btnSix;
-        private System.Windows.Forms.Button btnMultiply;
-        private System.Windows.Forms.Button btnInverse;
-        private System.Windows.Forms.Button btnOne;
-        private System.Windows.Forms.Button btnTwo;
-        private System.Windows.Forms.Button btnThree;
-        private System.Windows.Forms.Button btnSubtract;
-        private System.Windows.Forms.Button btnZero;
-        private System.Windows.Forms.Button btnSign;
-        private System.Windows.Forms.Button btnPeriod;
-        private System.Windows.Forms.Button btnAddition;
-        private System.Windows.Forms.Button btnEquals;
-        private System.Windows.Forms.Button btnParaL;
-        private System.Windows.Forms.Button btnParaR;
-        private System.Windows.Forms.TextBox txtOperationString;
-        protected System.Windows.Forms.TextBox txtDisplay;
-        private System.Windows.Forms.Button btnMemAdd;
-        private System.Windows.Forms.Button btnMemStore;
-        private System.Windows.Forms.Button btnMemRecall;
-        private System.Windows.Forms.Button btnMemClear;
-        private System.Windows.Forms.TextBox txtMemoryUsed;
+        public System.Windows.Forms.Button btnBack;
+        public System.Windows.Forms.Button btnClear;
+        public System.Windows.Forms.Button btnSeven;
+        public System.Windows.Forms.Button btnEight;
+        public System.Windows.Forms.Button btnNine;
+        public System.Windows.Forms.Button btnDivide;
+        public System.Windows.Forms.Button btnSqrt;
+        public System.Windows.Forms.Button btnFour;
+        public System.Windows.Forms.Button btnFive;
+        public System.Windows.Forms.Button btnSix;
+        public System.Windows.Forms.Button btnMultiply;
+        public System.Windows.Forms.Button btnInverse;
+        public System.Windows.Forms.Button btnOne;
+        public System.Windows.Forms.Button btnTwo;
+        public System.Windows.Forms.Button btnThree;
+        public System.Windows.Forms.Button btnSubtract;
+        public System.Windows.Forms.Button btnZero;
+        public System.Windows.Forms.Button btnSign;
+        public System.Windows.Forms.Button btnPeriod;
+        public System.Windows.Forms.Button btnAddition;
+        public System.Windows.Forms.Button btnEquals;
+        public System.Windows.Forms.Button btnParaL;
+        public System.Windows.Forms.Button btnParaR;
+        public System.Windows.Forms.TextBox txtOperationString;
+        public System.Windows.Forms.TextBox txtDisplay;
+        public System.Windows.Forms.Button btnMemAdd;
+        public System.Windows.Forms.Button btnMemStore;
+        public System.Windows.Forms.Button btnMemRecall;
+        public System.Windows.Forms.Button btnMemClear;
+        public System.Windows.Forms.TextBox txtMemoryUsed;
     }
 
 }

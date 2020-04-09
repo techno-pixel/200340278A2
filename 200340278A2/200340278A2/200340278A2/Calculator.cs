@@ -13,9 +13,11 @@ namespace _200340278A2
     #region KEKW not useful MemoryCalculator Class
     public class MemoryCalculator : _200340278A2.Calculator
     {
-        public void memAdd()
+        public Stack memoryStack = new Stack();
+
+        public void memAdd(Calculator cal)
         {
-            if (memAddClick == true)
+            if (cal.memAddClick == true)
             {
                 if (memoryStack.Count < 1)
                 {
@@ -24,51 +26,51 @@ namespace _200340278A2
                 else
                 {
                     string toAdd = memoryStack.Pop().ToString();
-                    double resulties = Double.Parse(toAdd) + double.Parse(txtDisplay.Text);
+                    double resulties = Double.Parse(toAdd) + double.Parse(cal.txtDisplay.Text);
                     memoryStack.Push(resulties);
-                    txtOperationString.Text = resulties.ToString();
-                    txtDisplay.Text = string.Empty;
-                    memAddClick = false;
+                    cal.txtOperationString.Text = resulties.ToString();
+                    cal.txtDisplay.Text = string.Empty;
+                    cal.memAddClick = false;
                 }
             }
         }
 
-        public void memStore()
+        public void memStore(Calculator cal)
         {
-            if(txtDisplay.Text.Length < 1)
+            if(cal.txtDisplay.Text.Length < 1)
             {
                 MessageBox.Show("No values to store!");
-            } else if(storeClicked == true)
+            } else if(cal.storeClicked == true)
             {
-                memoryStack.Push(txtDisplay.Text);
-                txtMemoryUsed.Text = "M";
-                txtDisplay.Text = string.Empty;
-                storeClicked = false;
+                memoryStack.Push(cal.txtDisplay.Text);
+                cal.txtMemoryUsed.Text = "M";
+                cal.txtDisplay.Text = string.Empty;
+                cal.storeClicked = false;
             }
         }
 
-        public void memClear()
+        public void memClear(Calculator cal)
         {
             if (memoryStack.Count < 1)
             {
                 MessageBox.Show("No memory to clear!");
-            } else if (memClearClicked == true)
+            } else if (cal.memClearClicked == true)
             {
                 memoryStack.Clear();
-                memClearClicked = false;
+                cal.memClearClicked = false;
             }
         }
 
-        public void memRecall()
+        public void memRecall(Calculator cal)
         {
             if (memoryStack.Count < 1)
             {
                 MessageBox.Show("No values to recall!");
             }
-            else if (recallClicked == true)
+            else if (cal.recallClicked == true)
             {
-                txtDisplay.Text = memoryStack.Pop().ToString();
-                recallClicked = false;
+                cal.txtDisplay.Text = memoryStack.Pop().ToString();
+                cal.recallClicked = false;
             }
         }
     }
@@ -80,23 +82,24 @@ namespace _200340278A2
         { 
             public MemoryCalculator memCalc;
 
-            public calcMem() 
+            public MemoryClass() 
             {
                 memCalc = new MemoryCalculator();
             }
         }
 
-        protected string CurrentDisplay = "0";
-        protected List<string> indexOperation = new List<string>();
-        protected const string OPERATORS = "+-/*.";
-        protected int countL = 0;
-        protected int countR = 0;
-        protected bool storeClicked = false;
-        protected bool recallClicked = false;
-        protected bool memAddClick = false;
-        protected bool memClearClicked = false;
-        protected Stack memoryStack = new Stack();
-        protected DataTable CalendarDataTable = new DataTable();  // object that behaves like excel tables to perform calculations while following order of operations
+        public string CurrentDisplay = "0";
+        public List<string> indexOperation = new List<string>();
+        public const string OPERATORS = "+-/*.";
+        public int countL = 0;
+        public int countR = 0;
+        public bool storeClicked = false;
+        public bool recallClicked = false;
+        public bool memAddClick = false;
+        public bool memClearClicked = false;
+        public DataTable CalendarDataTable = new DataTable();  // object that behaves like excel tables to perform calculations while following order of operations
+        public MemoryClass mc;
+
 
         // has code
         #region Constructor
@@ -121,6 +124,7 @@ namespace _200340278A2
             txtDisplay.Cursor = Cursors.Arrow;
             txtDisplay.GotFocus += txtDisplay_GotFocus;
             txtOperationString.ReadOnly = true;
+            mc = new MemoryClass();
         }
 
         protected void txtDisplay_GotFocus(object sender, EventArgs e)
@@ -238,10 +242,9 @@ namespace _200340278A2
         /// <param name="e"></param>
         private void btnMemClear_Click(object sender, EventArgs e)
         {
-            MemoryClass mc = new MemoryClass();
             memClearClicked = true;
             txtMemoryUsed.Text = string.Empty;
-            mc.memCalc.memClear();
+            mc.memCalc.memClear(this);
         }
 
         /// <summary>
@@ -252,7 +255,7 @@ namespace _200340278A2
         protected void btnMemRecall_Click(object sender, EventArgs e)
         {
             recallClicked = true;
-            memRecall();
+            mc.memCalc.memRecall(this);
         }
 
         /// <summary>
@@ -262,9 +265,8 @@ namespace _200340278A2
         /// <param name="e"></param>
         protected void btnMemStore_Click(object sender, EventArgs e)
         {
-            MemoryClass mc = new MemoryClass();
             storeClicked = true;
-            mc.memCalc.memStore();
+            mc.memCalc.memStore(this);
         }
 
         /// <summary>
@@ -274,9 +276,8 @@ namespace _200340278A2
         /// <param name="e"></param>
         protected void btnMemAdd_Click(object sender, EventArgs e)
         {
-            MemoryClass mc = new MemoryClass();
             memAddClick = true;
-            mc.memCalc.memAdd();
+            mc.memCalc.memAdd(this);
         }
         #endregion
         
@@ -732,65 +733,6 @@ namespace _200340278A2
                 CurrentDisplay = string.Empty;
             }
             txtDisplay.Focus();
-        }
-
-        protected virtual void memAdd()
-        {
-            if (memAddClick == true)
-            {
-                if (memoryStack.Count < 1)
-                {
-                    MessageBox.Show("You need to store a value first!");
-                }
-                else
-                {
-                    string toAdd = memoryStack.Pop().ToString();
-                    double resulties = Double.Parse(toAdd) + double.Parse(txtDisplay.Text);
-                    memoryStack.Push(resulties);
-                    txtOperationString.Text = resulties.ToString();
-                    txtDisplay.Text = string.Empty;
-                    memAddClick = false;
-                }
-            }
-        }
-
-        protected virtual void memStore()
-        {
-            if(txtDisplay.Text.Length < 1)
-            {
-                MessageBox.Show("No values to store!");
-            } else if(storeClicked == true)
-            {
-                memoryStack.Push(txtDisplay.Text);
-                txtMemoryUsed.Text = "M";
-                txtDisplay.Text = string.Empty;
-                storeClicked = false;
-            }
-        }
-
-        protected virtual void memClear()
-        {
-            if (memoryStack.Count < 1)
-            {
-                MessageBox.Show("No memory to clear!");
-            } else if (memClearClicked == true)
-            {
-                memoryStack.Clear();
-                memClearClicked = false;
-            }
-        }
-
-        protected virtual void memRecall()
-        {
-            if (memoryStack.Count < 1)
-            {
-                MessageBox.Show("No values to recall!");
-            }
-            else if (recallClicked == true)
-            {
-                txtDisplay.Text = memoryStack.Pop().ToString();
-                recallClicked = false;
-            }
         }
         #endregion
     }
