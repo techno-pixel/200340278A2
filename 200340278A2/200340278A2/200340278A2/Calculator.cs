@@ -13,8 +13,7 @@ namespace _200340278A2
     #region KEKW not useful MemoryCalculator Class
     public class MemoryCalculator : _200340278A2.Calculator
     {
-
-        protected override void memAdd()
+        public void memAdd()
         {
             if (memAddClick == true)
             {
@@ -27,32 +26,46 @@ namespace _200340278A2
                     string toAdd = memoryStack.Pop().ToString();
                     double resulties = Double.Parse(toAdd) + double.Parse(txtDisplay.Text);
                     memoryStack.Push(resulties);
+                    txtOperationString.Text = resulties.ToString();
+                    txtDisplay.Text = string.Empty;
                     memAddClick = false;
                 }
             }
         }
 
-        protected override void memStore()
+        public void memStore()
         {
-            if (storeClicked == true)
+            if(txtDisplay.Text.Length < 1)
+            {
+                MessageBox.Show("No values to store!");
+            } else if(storeClicked == true)
             {
                 memoryStack.Push(txtDisplay.Text);
+                txtMemoryUsed.Text = "M";
+                txtDisplay.Text = string.Empty;
                 storeClicked = false;
             }
         }
 
-        protected override void memClear()
+        public void memClear()
         {
-            if (memClearClicked == true)
+            if (memoryStack.Count < 1)
+            {
+                MessageBox.Show("No memory to clear!");
+            } else if (memClearClicked == true)
             {
                 memoryStack.Clear();
                 memClearClicked = false;
             }
         }
 
-        protected override void memRecall()
+        public void memRecall()
         {
-            if (recallClicked == true)
+            if (memoryStack.Count < 1)
+            {
+                MessageBox.Show("No values to recall!");
+            }
+            else if (recallClicked == true)
             {
                 txtDisplay.Text = memoryStack.Pop().ToString();
                 recallClicked = false;
@@ -63,6 +76,16 @@ namespace _200340278A2
 
     public partial class Calculator : Form
     {
+        public class MemoryClass 
+        { 
+            public MemoryCalculator memCalc;
+
+            public calcMem() 
+            {
+                memCalc = new MemoryCalculator();
+            }
+        }
+
         protected string CurrentDisplay = "0";
         protected List<string> indexOperation = new List<string>();
         protected const string OPERATORS = "+-/*.";
@@ -213,11 +236,12 @@ namespace _200340278A2
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        protected void btnMemClear_Click(object sender, EventArgs e)
+        private void btnMemClear_Click(object sender, EventArgs e)
         {
+            MemoryClass mc = new MemoryClass();
             memClearClicked = true;
             txtMemoryUsed.Text = string.Empty;
-            memClear();
+            mc.memCalc.memClear();
         }
 
         /// <summary>
@@ -238,8 +262,9 @@ namespace _200340278A2
         /// <param name="e"></param>
         protected void btnMemStore_Click(object sender, EventArgs e)
         {
+            MemoryClass mc = new MemoryClass();
             storeClicked = true;
-            memStore();
+            mc.memCalc.memStore();
         }
 
         /// <summary>
@@ -249,8 +274,9 @@ namespace _200340278A2
         /// <param name="e"></param>
         protected void btnMemAdd_Click(object sender, EventArgs e)
         {
+            MemoryClass mc = new MemoryClass();
             memAddClick = true;
-            memAdd();
+            mc.memCalc.memAdd();
         }
         #endregion
         
