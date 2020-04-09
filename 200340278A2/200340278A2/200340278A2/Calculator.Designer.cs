@@ -29,13 +29,8 @@
         private void InitializeComponent()
         {
             this.txtDisplay = new System.Windows.Forms.TextBox();
-            this.txtMemoryUsed = new System.Windows.Forms.TextBox();
             this.btnBack = new System.Windows.Forms.Button();
             this.btnClear = new System.Windows.Forms.Button();
-            this.btnMemClear = new System.Windows.Forms.Button();
-            this.btnMemRecall = new System.Windows.Forms.Button();
-            this.btnMemStore = new System.Windows.Forms.Button();
-            this.btnMemAdd = new System.Windows.Forms.Button();
             this.btnSeven = new System.Windows.Forms.Button();
             this.btnEight = new System.Windows.Forms.Button();
             this.btnNine = new System.Windows.Forms.Button();
@@ -58,6 +53,11 @@
             this.btnParaL = new System.Windows.Forms.Button();
             this.btnParaR = new System.Windows.Forms.Button();
             this.txtOperationString = new System.Windows.Forms.TextBox();
+            this.btnMemAdd = new System.Windows.Forms.Button();
+            this.btnMemStore = new System.Windows.Forms.Button();
+            this.btnMemRecall = new System.Windows.Forms.Button();
+            this.btnMemClear = new System.Windows.Forms.Button();
+            this.txtMemoryUsed = new System.Windows.Forms.TextBox();
             this.SuspendLayout();
             // 
             // txtDisplay
@@ -69,15 +69,6 @@
             this.txtDisplay.TabIndex = 0;
             this.txtDisplay.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
             this.txtDisplay.TextChanged += new System.EventHandler(this.txtDisplay_TextChanged);
-            // 
-            // txtMemoryUsed
-            // 
-            this.txtMemoryUsed.Location = new System.Drawing.Point(12, 58);
-            this.txtMemoryUsed.Name = "txtMemoryUsed";
-            this.txtMemoryUsed.ReadOnly = true;
-            this.txtMemoryUsed.Size = new System.Drawing.Size(51, 20);
-            this.txtMemoryUsed.TabIndex = 2;
-            this.txtMemoryUsed.TextChanged += new System.EventHandler(this.txtMemoryUsed_TextChanged);
             // 
             // btnBack
             // 
@@ -103,54 +94,6 @@
             this.btnClear.Text = "Clear";
             this.btnClear.UseVisualStyleBackColor = true;
             this.btnClear.Click += new System.EventHandler(this.btnClear_Click);
-            // 
-            // btnMemClear
-            // 
-            this.btnMemClear.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnMemClear.ForeColor = System.Drawing.Color.Red;
-            this.btnMemClear.Location = new System.Drawing.Point(11, 143);
-            this.btnMemClear.Name = "btnMemClear";
-            this.btnMemClear.Size = new System.Drawing.Size(52, 42);
-            this.btnMemClear.TabIndex = 5;
-            this.btnMemClear.Text = "MC";
-            this.btnMemClear.UseVisualStyleBackColor = true;
-            this.btnMemClear.Click += new System.EventHandler(this.btnMemClear_Click);
-            // 
-            // btnMemRecall
-            // 
-            this.btnMemRecall.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnMemRecall.ForeColor = System.Drawing.Color.Red;
-            this.btnMemRecall.Location = new System.Drawing.Point(12, 191);
-            this.btnMemRecall.Name = "btnMemRecall";
-            this.btnMemRecall.Size = new System.Drawing.Size(52, 42);
-            this.btnMemRecall.TabIndex = 6;
-            this.btnMemRecall.Text = "MR";
-            this.btnMemRecall.UseVisualStyleBackColor = true;
-            this.btnMemRecall.Click += new System.EventHandler(this.btnMemRecall_Click);
-            // 
-            // btnMemStore
-            // 
-            this.btnMemStore.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnMemStore.ForeColor = System.Drawing.Color.Red;
-            this.btnMemStore.Location = new System.Drawing.Point(12, 239);
-            this.btnMemStore.Name = "btnMemStore";
-            this.btnMemStore.Size = new System.Drawing.Size(52, 42);
-            this.btnMemStore.TabIndex = 7;
-            this.btnMemStore.Text = "MS";
-            this.btnMemStore.UseVisualStyleBackColor = true;
-            this.btnMemStore.Click += new System.EventHandler(this.btnMemStore_Click);
-            // 
-            // btnMemAdd
-            // 
-            this.btnMemAdd.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnMemAdd.ForeColor = System.Drawing.Color.Red;
-            this.btnMemAdd.Location = new System.Drawing.Point(12, 287);
-            this.btnMemAdd.Name = "btnMemAdd";
-            this.btnMemAdd.Size = new System.Drawing.Size(52, 42);
-            this.btnMemAdd.TabIndex = 8;
-            this.btnMemAdd.Text = "M+";
-            this.btnMemAdd.UseVisualStyleBackColor = true;
-            this.btnMemAdd.Click += new System.EventHandler(this.btnMemAdd_Click);
             // 
             // btnSeven
             // 
@@ -415,6 +358,64 @@
             this.txtOperationString.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
             this.txtOperationString.TextChanged += new System.EventHandler(this.txtOperationString_TextChanged);
             // 
+            // btnMemAdd
+            // 
+            this.btnMemAdd.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnMemAdd.ForeColor = System.Drawing.Color.Red;
+            this.btnMemAdd.Location = new System.Drawing.Point(18, 288);
+            this.btnMemAdd.Name = "btnMemAdd";
+            this.btnMemAdd.Size = new System.Drawing.Size(52, 42);
+            this.btnMemAdd.TabIndex = 35;
+            this.btnMemAdd.Text = "M+";
+            this.btnMemAdd.UseVisualStyleBackColor = true;
+            this.btnMemAdd.Click += new System.EventHandler(this.btnMemAdd_Click);
+            // 
+            // btnMemStore
+            // 
+            this.btnMemStore.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnMemStore.ForeColor = System.Drawing.Color.Red;
+            this.btnMemStore.Location = new System.Drawing.Point(18, 240);
+            this.btnMemStore.Name = "btnMemStore";
+            this.btnMemStore.Size = new System.Drawing.Size(52, 42);
+            this.btnMemStore.TabIndex = 34;
+            this.btnMemStore.Text = "MS";
+            this.btnMemStore.UseVisualStyleBackColor = true;
+            this.btnMemStore.Click += new System.EventHandler(this.btnMemStore_Click);
+            // 
+            // btnMemRecall
+            // 
+            this.btnMemRecall.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnMemRecall.ForeColor = System.Drawing.Color.Red;
+            this.btnMemRecall.Location = new System.Drawing.Point(18, 192);
+            this.btnMemRecall.Name = "btnMemRecall";
+            this.btnMemRecall.Size = new System.Drawing.Size(52, 42);
+            this.btnMemRecall.TabIndex = 33;
+            this.btnMemRecall.Text = "MR";
+            this.btnMemRecall.UseVisualStyleBackColor = true;
+            this.btnMemRecall.Click += new System.EventHandler(this.btnMemRecall_Click);
+            // 
+            // btnMemClear
+            // 
+            this.btnMemClear.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnMemClear.ForeColor = System.Drawing.Color.Red;
+            this.btnMemClear.Location = new System.Drawing.Point(17, 144);
+            this.btnMemClear.Name = "btnMemClear";
+            this.btnMemClear.Size = new System.Drawing.Size(52, 42);
+            this.btnMemClear.TabIndex = 32;
+            this.btnMemClear.Text = "MC";
+            this.btnMemClear.UseVisualStyleBackColor = true;
+            this.btnMemClear.Click += new System.EventHandler(this.btnMemClear_Click);
+            // 
+            // txtMemoryUsed
+            // 
+            this.txtMemoryUsed.ForeColor = System.Drawing.SystemColors.WindowText;
+            this.txtMemoryUsed.Location = new System.Drawing.Point(18, 59);
+            this.txtMemoryUsed.Name = "txtMemoryUsed";
+            this.txtMemoryUsed.ReadOnly = true;
+            this.txtMemoryUsed.Size = new System.Drawing.Size(51, 20);
+            this.txtMemoryUsed.TabIndex = 31;
+            this.txtMemoryUsed.TextChanged += new System.EventHandler(this.txtMemoryUsed_TextChanged);
+            // 
             // Calculator
             // 
             this.AcceptButton = this.btnEquals;
@@ -422,6 +423,11 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.CancelButton = this.btnClear;
             this.ClientSize = new System.Drawing.Size(343, 336);
+            this.Controls.Add(this.btnMemAdd);
+            this.Controls.Add(this.btnMemStore);
+            this.Controls.Add(this.btnMemRecall);
+            this.Controls.Add(this.btnMemClear);
+            this.Controls.Add(this.txtMemoryUsed);
             this.Controls.Add(this.txtOperationString);
             this.Controls.Add(this.btnParaR);
             this.Controls.Add(this.btnParaL);
@@ -444,13 +450,8 @@
             this.Controls.Add(this.btnNine);
             this.Controls.Add(this.btnEight);
             this.Controls.Add(this.btnSeven);
-            this.Controls.Add(this.btnMemAdd);
-            this.Controls.Add(this.btnMemStore);
-            this.Controls.Add(this.btnMemRecall);
-            this.Controls.Add(this.btnMemClear);
             this.Controls.Add(this.btnClear);
             this.Controls.Add(this.btnBack);
-            this.Controls.Add(this.txtMemoryUsed);
             this.Controls.Add(this.txtDisplay);
             this.Name = "Calculator";
             this.Text = "Calculator";
@@ -462,13 +463,8 @@
         }
 
         #endregion
-        private System.Windows.Forms.TextBox txtMemoryUsed;
         private System.Windows.Forms.Button btnBack;
         private System.Windows.Forms.Button btnClear;
-        private System.Windows.Forms.Button btnMemClear;
-        private System.Windows.Forms.Button btnMemRecall;
-        private System.Windows.Forms.Button btnMemStore;
-        private System.Windows.Forms.Button btnMemAdd;
         private System.Windows.Forms.Button btnSeven;
         private System.Windows.Forms.Button btnEight;
         private System.Windows.Forms.Button btnNine;
@@ -492,6 +488,12 @@
         private System.Windows.Forms.Button btnParaR;
         private System.Windows.Forms.TextBox txtOperationString;
         protected System.Windows.Forms.TextBox txtDisplay;
+        private System.Windows.Forms.Button btnMemAdd;
+        private System.Windows.Forms.Button btnMemStore;
+        private System.Windows.Forms.Button btnMemRecall;
+        private System.Windows.Forms.Button btnMemClear;
+        private System.Windows.Forms.TextBox txtMemoryUsed;
     }
+
 }
 

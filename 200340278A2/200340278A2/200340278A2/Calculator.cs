@@ -11,53 +11,54 @@ using System.Collections; // for the stack
 namespace _200340278A2
 {
     #region MemoryCalculator Class
-    public class MemoryCalculator : _200340278A2.Calculator
-    {
+    //public class MemoryCalculator : _200340278A2.Calculator
+    //{
 
-        protected override void memAdd()
-        {
-            if(memAddClick == true)
-            {
-                if(memoryStack.Count < 1)
-                {
-                    MessageBox.Show("You need to store a value first!");
-                } else
-                {
-                    string toAdd = memoryStack.Pop().ToString();
-                    double resulties = Double.Parse(toAdd) + double.Parse(txtDisplay.Text);
-                    memoryStack.Push(resulties);
-                    memAddClick = false;
-                }
-            }
-        }
+    //    protected override void memAdd()
+    //    {
+    //        if (memAddClick == true)
+    //        {
+    //            if (memoryStack.Count < 1)
+    //            {
+    //                MessageBox.Show("You need to store a value first!");
+    //            }
+    //            else
+    //            {
+    //                string toAdd = memoryStack.Pop().ToString();
+    //                double resulties = Double.Parse(toAdd) + double.Parse(txtDisplay.Text);
+    //                memoryStack.Push(resulties);
+    //                memAddClick = false;
+    //            }
+    //        }
+    //    }
 
-        protected override void memStore()
-        {
-            if (storeClicked == true)
-            {
-                memoryStack.Push(txtDisplay.Text);
-                storeClicked = false;
-            }
-        }
+    //    protected override void memStore()
+    //    {
+    //        if (storeClicked == true)
+    //        {
+    //            memoryStack.Push(txtDisplay.Text);
+    //            storeClicked = false;
+    //        }
+    //    }
 
-        protected override void memClear()
-        {
-            if (memClearClicked == true)
-            {
-                memoryStack.Clear();
-                memClearClicked = false;
-            }
-        }
+    //    protected override void memClear()
+    //    {
+    //        if (memClearClicked == true)
+    //        {
+    //            memoryStack.Clear();
+    //            memClearClicked = false;
+    //        }
+    //    }
 
-        protected override void memRecall()
-        {
-            if (recallClicked == true)
-            {
-                txtDisplay.Text = memoryStack.Pop().ToString();
-                recallClicked = false;
-            }
-        }
-    }
+    //    protected override void memRecall()
+    //    {
+    //        if (recallClicked == true)
+    //        {
+    //            txtDisplay.Text = memoryStack.Pop().ToString();
+    //            recallClicked = false;
+    //        }
+    //    }
+    //}
     #endregion
 
     public partial class Calculator : Form
@@ -238,7 +239,6 @@ namespace _200340278A2
         protected void btnMemStore_Click(object sender, EventArgs e)
         {
             storeClicked = true;
-            txtMemoryUsed.Text = "M";
             memStore();
         }
 
@@ -404,11 +404,13 @@ namespace _200340278A2
         protected void btnEquals_Click(object sender, EventArgs e)
         {
             string result = string.Empty;
-
             try
             {
-
-                if (OPERATORS.Contains(txtDisplay.Text.Last())) // if that last operator is a +-/*. then remove it
+                if(string.IsNullOrEmpty(txtDisplay.Text))
+                {
+                    txtDisplay.Text = txtDisplay.Text;
+                }
+                else if (OPERATORS.Contains(txtDisplay.Text.Last())) // if that last operator is a +-/*. then remove it
                 {
                     txtDisplay.Text = txtDisplay.Text.Substring(0, txtDisplay.Text.Length - 1);
                 } else if (countL != countR)
@@ -434,12 +436,11 @@ namespace _200340278A2
                     {
                         txtOperationString.Text = txtOperationString.Text + indexOps;
                     }
-
-                    result = CalendarDataTable.Compute(txtOperationString.Text,"").ToString();
+                    result = CalendarDataTable.Compute(txtOperationString.Text, "").ToString();
                     btnClear.PerformClick();
                     txtDisplay.GotFocus += txtDisplay_GotFocus;
                     txtDisplay.Text = result;
-                }
+                } 
             }
             catch (ApplicationException) // catch the exception to not break the program
             {
@@ -452,15 +453,24 @@ namespace _200340278A2
         #region Additional Function Buttons
         protected void btnSqrt_Click(object sender, EventArgs e)
         {
+            
             if (txtDisplay.Text.Length < 1)
             {
                 MessageBox.Show("No value entered!");
-            } else
+            }
+            else
             {
                 double rez = Double.Parse(txtDisplay.Text);
-                string result = Math.Sqrt(rez).ToString();
-                txtDisplay.GotFocus += txtDisplay_GotFocus;
-                txtDisplay.Text = result;
+                if(rez < 1)
+                {
+                    MessageBox.Show("Cannot square root a negative number");
+                    btnClear.PerformClick();
+                } else
+                {
+                    string result = Math.Sqrt(rez).ToString();
+                    txtDisplay.GotFocus += txtDisplay_GotFocus;
+                    txtDisplay.Text = result;
+                }
             }
         }
 
@@ -709,16 +719,23 @@ namespace _200340278A2
 
         protected virtual void memStore()
         {
-            if (storeClicked == true)
+            if(txtDisplay.Text.Length < 1)
+            {
+                MessageBox.Show("No values to store!");
+            } else if(storeClicked == true)
             {
                 memoryStack.Push(txtDisplay.Text);
+                txtMemoryUsed.Text = "M";
                 storeClicked = false;
             }
         }
 
         protected virtual void memClear()
         {
-            if (memClearClicked == true)
+            if (memoryStack.Count < 1)
+            {
+                MessageBox.Show("No memory to clear!");
+            } else if (memClearClicked == true)
             {
                 memoryStack.Clear();
                 memClearClicked = false;
@@ -727,7 +744,11 @@ namespace _200340278A2
 
         protected virtual void memRecall()
         {
-            if (recallClicked == true)
+            if (memoryStack.Count < 1)
+            {
+                MessageBox.Show("No values to recall!");
+            }
+            else if (recallClicked == true)
             {
                 txtDisplay.Text = memoryStack.Pop().ToString();
                 recallClicked = false;
@@ -736,3 +757,7 @@ namespace _200340278A2
         #endregion
     }
 }
+
+
+
+
