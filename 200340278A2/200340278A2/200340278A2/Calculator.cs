@@ -10,55 +10,55 @@ using System.Collections; // for the stack
 
 namespace _200340278A2
 {
-    #region MemoryCalculator Class
-    //public class MemoryCalculator : _200340278A2.Calculator
-    //{
+    #region KEKW not useful MemoryCalculator Class
+    public class MemoryCalculator : _200340278A2.Calculator
+    {
 
-    //    protected override void memAdd()
-    //    {
-    //        if (memAddClick == true)
-    //        {
-    //            if (memoryStack.Count < 1)
-    //            {
-    //                MessageBox.Show("You need to store a value first!");
-    //            }
-    //            else
-    //            {
-    //                string toAdd = memoryStack.Pop().ToString();
-    //                double resulties = Double.Parse(toAdd) + double.Parse(txtDisplay.Text);
-    //                memoryStack.Push(resulties);
-    //                memAddClick = false;
-    //            }
-    //        }
-    //    }
+        protected override void memAdd()
+        {
+            if (memAddClick == true)
+            {
+                if (memoryStack.Count < 1)
+                {
+                    MessageBox.Show("You need to store a value first!");
+                }
+                else
+                {
+                    string toAdd = memoryStack.Pop().ToString();
+                    double resulties = Double.Parse(toAdd) + double.Parse(txtDisplay.Text);
+                    memoryStack.Push(resulties);
+                    memAddClick = false;
+                }
+            }
+        }
 
-    //    protected override void memStore()
-    //    {
-    //        if (storeClicked == true)
-    //        {
-    //            memoryStack.Push(txtDisplay.Text);
-    //            storeClicked = false;
-    //        }
-    //    }
+        protected override void memStore()
+        {
+            if (storeClicked == true)
+            {
+                memoryStack.Push(txtDisplay.Text);
+                storeClicked = false;
+            }
+        }
 
-    //    protected override void memClear()
-    //    {
-    //        if (memClearClicked == true)
-    //        {
-    //            memoryStack.Clear();
-    //            memClearClicked = false;
-    //        }
-    //    }
+        protected override void memClear()
+        {
+            if (memClearClicked == true)
+            {
+                memoryStack.Clear();
+                memClearClicked = false;
+            }
+        }
 
-    //    protected override void memRecall()
-    //    {
-    //        if (recallClicked == true)
-    //        {
-    //            txtDisplay.Text = memoryStack.Pop().ToString();
-    //            recallClicked = false;
-    //        }
-    //    }
-    //}
+        protected override void memRecall()
+        {
+            if (recallClicked == true)
+            {
+                txtDisplay.Text = memoryStack.Pop().ToString();
+                recallClicked = false;
+            }
+        }
+    }
     #endregion
 
     public partial class Calculator : Form
@@ -437,9 +437,18 @@ namespace _200340278A2
                         txtOperationString.Text = txtOperationString.Text + indexOps;
                     }
                     result = CalendarDataTable.Compute(txtOperationString.Text, "").ToString();
-                    btnClear.PerformClick();
-                    txtDisplay.GotFocus += txtDisplay_GotFocus;
-                    txtDisplay.Text = result;
+                    if (result == "∞")
+                    {
+                        MessageBox.Show("Cannot divide by zero");
+                        btnClear.PerformClick();
+                        txtDisplay.GotFocus += txtDisplay_GotFocus;
+                    }
+                    else
+                    {
+                        btnClear.PerformClick();
+                        txtDisplay.GotFocus += txtDisplay_GotFocus;
+                        txtDisplay.Text = result;
+                    }
                 } 
             }
             catch (ApplicationException) // catch the exception to not break the program
